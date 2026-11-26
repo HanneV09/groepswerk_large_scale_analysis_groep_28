@@ -342,6 +342,7 @@ rapporteren:
 ```{r}
 summary(model_protein_cxcl13)
 ```
+```{r}
 confint(model_protein_cxcl13)
 ```
 No significant visit-by-age group interaction was observed for CXCL13 (β = -0.095, 95% CI [-0.353, 0.163], p = 0.472), indicating that the change in CXCL13 concentrations between Day 0 and Day 7 did not differ significantly between young and older adults.
