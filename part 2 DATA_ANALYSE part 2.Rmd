@@ -14,9 +14,9 @@ list.files()
 
 ```{r}
 # data import
-proteins_npx_raw <- read_csv("proteins_npx_raw (2).csv")
-sample_metadata <- read_csv("sample_metadata (2).csv")
-protein_annotation <- read_csv("protein_annotation (2).csv")
+proteins_npx_raw <- read_csv("proteins_npx_raw.csv")
+sample_metadata <- read_csv("sample_metadata.csv")
+protein_annotation <- read_csv("protein_annotation.csv")
 ```
 # Controleer dimensies en unieke ID's
 ```{r}
@@ -219,6 +219,29 @@ summary(model_protein_cxcl13)
 ```
 conclusie hieruit:
 The linear mixed-effects model, including donor as a random intercept, showed substantial inter-individual variability, with an intraclass correlation coefficient (ICC) of 0.606. No significant main effect of visit (Day 7 vs. Day 0; β = -0.006, p = 0.946) or age group (Older Adults vs. Younger Adults; β = -0.220, p = 0.165) was observed. Furthermore, no significant interaction between visit and age group was detected (β = -0.095, p = 0.472), indicating no evidence of differential changes over time between the two age groups. Significant effects were observed for sex (β = -0.347, p = 0.012) and batch 20212223 (β = -0.901, p = 0.010).
+```{r}
+library(emmeans)
+emm <- emmeans(model, ~ sample.visit * ageGroup)
+emm_df <- as.data.frame(emm)
+
+ggplot(emm_df,
+       aes(x = sample.visit,
+           y = emmean,
+           color = ageGroup,
+           group = ageGroup)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 1) +
+  geom_errorbar(aes(ymin = lower.CL,
+                    ymax = upper.CL),
+                width = 0.1) +
+  labs(
+    x = "Visit",
+    y = "Adjusted CXCL13 (NPX)",
+    color = "Age group"
+  ) +
+  theme_classic(base_size = 14)
+```
+
 
 model aannamens controleren 
 Lineariteit en homoscedasticiteit ( Residuen versus Fitted )
