@@ -1,0 +1,299 @@
+---
+title: "groepswerk part 2"
+output:
+  pdf_document: default
+  html_document: default
+date: "2026-11-25"
+---
+```{r}
+library(tidyverse)
+```
+```{r}
+list.files()
+```
+
+```{r}
+# data import
+proteins_npx_raw <- read_csv("proteins_npx_raw (2).csv")
+sample_metadata <- read_csv("sample_metadata (2).csv")
+protein_annotation <- read_csv("protein_annotation (2).csv")
+```
+# Controleer dimensies en unieke ID's
+```{r}
+dim(sample_metadata)
+dim(proteins_npx_raw)
+sum(is.na(sample_metadata$sample_kit_id))
+sum(is.na(proteins_npx_raw$sample_kit_id))
+```
+De dimensies zien er oke uit, dus deze kunnen samengevoegd worden. 
+En er zijn geen missing values in de sample kit id, dus deze kunnen samengevoegd worden. 
+
+3. missing values
+missing values in metadata:
+```{r}
+#globale missingness
+sum(is.na(sample_metadata))
+mean(is.na(sample_metadata))*100
+```
+waar bevinden de missing values zich 
+```{r}
+sort(colSums(is.na(sample_metadata)), decreasing = TRUE)
+```
+
+Several variables contained extensive missingness (>80%), suggesting that these measurements were only available for a subset of participants rather than being randomly missing. Such variables were considered unsuitable for analyses involving the full cohort.
+CMV has lots of missing values, therefore its better that we let this out of our hypothese, otherwise we will lose lots of statistical power. 
+```{r}
+colSums(is.na(sample_metadata[, c(
+  "subject.ageGroup",
+  "subject.biologicalSex",
+  "cmv.igg_serology_interpretation"
+)]))
+```
+CMV has lots of missing values, therefore its better that we let this out of our hypothese, otherwise we will lose lots of statistical power. 
+
+merge of the data
+```{r}
+data <- merge(
+  sample_metadata,
+  proteins_npx_raw,
+  by = "sample_kit_id"
+)
+```
+to check if the data is merged 
+```{r}
+dim(data)
+```
+to find the exact "CXCL13" name in the data set 
+```{r}
+grep("CXCL13", names(data), value = TRUE)
+```
+
+```{r}
+table(data$sample.visitName)
+```
+we will analyse the cohort flu Year 1 day O in comparison to Flu Year Day 7 
+select this data
+```{r}
+analysis_data <- subset(
+  data,
+  sample.visitName %in% c(
+    "Flu Year 1 Day 0",
+    "Flu Year 1 Day 7"
+  )
+)
+```
+```{r}
+table(analysis_data$sample.visitName)
+```
+zoeken naar de unieke ID's per patient zodat we de metingen per patient kunnen bekijken 
+```{r}
+names(analysis_data)
+```
+```{r}
+length(unique(analysis_data$subject.subjectGuid))
+```
+controleren of er geen dubbele eiwit metingen onder verschillende ID's hebben plaatsgevonden
+duplicates:
+```{r}
+pairs_df <- protein_annotation %>%
+  filter(!is.na(same_assay_as)) %>%
+  arrange(n_missing) %>%
+  distinct(olink_id, .keep_all = TRUE)
+nrow(pairs_df)
+```
+We have found 9 duplicates.
+these have to be deleted.
+```{r}
+proteins_npx_clean <- proteins_npx_raw
+for (i in seq_len(nrow(pairs_df))) {
+  new_col <- pairs_df$protein[i]
+  old_col <- pairs_df$same_assay_as[i]
+  
+  proteins_npx_clean[[new_col]] <- coalesce(proteins_npx_clean[[new_col]], proteins_npx_clean[[old_col]])
+  proteins_npx_clean[[old_col]] <- NULL
+}
+```
+```{r}
+# 3. Werk ook protein_annotation bij (1472 unieke eiwitten)
+protein_annotation_clean <- protein_annotation %>%
+  filter(!protein %in% pairs_df$same_assay_as) %>%
+  mutate(
+    n_missing = if_else(protein %in% pairs_df$protein, 0L, n_missing),
+    pct_missing = if_else(protein %in% pairs_df$protein, 0.0, pct_missing)
+  )
+```
+```{r}
+# Controleer of de 9 samengevoegde eiwitten geen missings meer hebben
+colSums(is.na(proteins_npx_clean[pairs_df$protein]))
+```
+```{r}
+# Globale missingness na samenvoegen
+sum(is.na(proteins_npx_clean))
+mean(is.na(proteins_npx_clean)) * 100
+```
+controleren welke waarden onder de detectielimiet vallen
+wat betekent dat het signaal te zwak is om betrouwbaar te worden gekwantificeerd
+```{r}
+protein_annotation_clean %>%
+  filter(protein == "CXCL13" | assay == "CXCL13") %>%
+  select(protein, panel, npx_median, lod_median, pct_below_lod, pct_missing)
+```
+CXCL13 passes quality control without any issues regarding detection limits or missing values: 0% of the measurements fall below the detection limit (pct_below_lod = 0), 0% are missing (pct_missing = 0), and the median NPX abundance (0.268) is well above the median LOD (-2.644). Since CXCL13 can be reliably quantified across the entire dataset without floor effects or the need for imputation, it can be directly included in the model. 
+
+echte start part 2:
+
+**Onderzoeksvraag:**
+Does the change in plasma CXCL13 concentration between day 0 and day 7 after seasonal influenza vaccination differ between young and older adults, independently of biological sex, CMV status and batch?
+
+**Hypothese:**
+* **H0:** The change in plasma CXCL13 levels from day 0 to day 7 does not differ between young and older adults after adjustment ($\beta_{\text{visit} \times \text{ageGroup}} = 0$).
+* **H1:** The change in plasma CXCL13 levels from day 0 to day 7 differs significantly between young and older adults after adjustment ($\beta_{\text{visit} \times \text{ageGroup}} \neq 0$).
+
+**Variabelen:**
+* **Outcome (afhankelijke variabele):** `CXCL13` (continue NPX-waarde op $\log_2$-schaal).
+* **Hoofdpredictoren (interactie):** `sample.visit` (discreet/binair na filtering: Day 0 vs. Day 7) en `subject.ageGroup` (binair categorisch: Young Adult vs. Older Adult).
+* **Covariaten (confounders) & random effect:** `subject.biologicalSex` (Female vs. Male), `cmv_status` (Negative vs. Positive), `olink_batch_id` (categorisch, meerdere levels) en een random intercept voor `subject.subjectGuid` (om te corrigeren voor herhaalde metingen binnen dezelfde donor).
+
+
+
+step 1: filtering 
+we will analyse the cohort flu Year 1 day O in comparison to Flu Year Day 7 
+select this data
+```{r}
+analysis_data <- subset(
+  data,
+  sample.visitName %in% c(
+    "Flu Year 1 Day 0",
+    "Flu Year 1 Day 7"
+  )
+)
+```
+
+
+```{r}
+table(analysis_data$sample.visitName)
+```
+
+```{r}
+library(dplyr)
+library(lme4)
+library(lmerTest)
+#meetmomenten omzetten naar categorische variable, Dit zorgt ervoor dat R de visit als een categorie behandelt, en niet als een numerieke waarde.
+analysis_data <- analysis_data %>%
+  mutate(
+    visit = factor(sample.visitName,
+                   levels = c("Flu Year 1 Day 0", "Flu Year 1 Day 7"),
+                   labels = c("Day 0", "Day 7")),
+    #De code stelt de volgorde van de categorieën vast.
+    age_group = factor(subject.ageGroup, levels = c("Young Adult", "Older Adult")),
+    #Andere variabelen omzetten naar factoren omdat ze in het statistisch model als groepen of categorieën moeten         worden behandeld, en niet als numerieke waarden.
+    sex = factor(subject.biologicalSex),
+    cmv_status = factor(cmv_status),
+    batch = factor(olink_batch_id),
+    donor = factor(subject.subjectGuid)
+    #filteren = de code verwijdert alle rijen waarin minstens één van deze variabelen ontbreekt:
+  ) %>%
+  filter(
+    !is.na(CXCL13),
+    !is.na(visit),
+    !is.na(age_group),
+    !is.na(sex),
+    !is.na(cmv_status),
+    !is.na(batch),
+    !is.na(donor)
+  )
+
+# Controleer de aantallen per bezoek en leeftijdsgroep= je controleert hoeveel observaties er per visit en leeftijdsgroep overblijven.
+table(Visit = analysis_data$visit, AgeGroup = analysis_data$age_group)
+```
+
+
+
+# Fit het linear mixed-effects model op analysis_data
+```{r}
+model_protein_cxcl13 <- lmer(
+  CXCL13 ~ visit * age_group + sex + cmv_status + batch + (1 | donor),
+  data = analysis_data
+)
+summary(model_protein_cxcl13)
+```
+conclusie hieruit:
+The linear mixed-effects model, including donor as a random intercept, showed substantial inter-individual variability, with an intraclass correlation coefficient (ICC) of 0.606. No significant main effect of visit (Day 7 vs. Day 0; β = -0.006, p = 0.946) or age group (Older Adults vs. Younger Adults; β = -0.220, p = 0.165) was observed. Furthermore, no significant interaction between visit and age group was detected (β = -0.095, p = 0.472), indicating no evidence of differential changes over time between the two age groups. Significant effects were observed for sex (β = -0.347, p = 0.012) and batch 20212223 (β = -0.901, p = 0.010).
+
+model aannamens controleren 
+Lineariteit en homoscedasticiteit ( Residuen versus Fitted )
+  = Lineariteit: is het verband tussen de voorspelde waarden en de uitkomstvariabele voldoende lineair?
+  = Homoscedasticiteit: blijft de spreiding van de residuen ongeveer gelijk over het volledige bereik van de             voorspelde waarden?
+```{r}
+plot(fitted(model_cxcl13), resid(model_cxcl13),
+     xlab = "Fitted values", ylab = "Residuals",
+     main = "Residuals vs Fitted")
+abline(h = 0, lty = 2, col = "pink")
+```
+conclusie: grafiek van residuen versus voorspelde waarden laat zien dat de residuen grotendeels rond nul gecentreerd zijn zonder uitgesproken niet-lineariteit, vergezeld van lichte heteroscedasticiteit en een paar verhoogde positieve residuen bij hogere voorspelde waarden; gezien de steekproefomvang ($n = 184$), brengen deze kleine afwijkingen de inferentie van het model niet wezenlijk in gevaar."
+# 2. Normaliteit van residuen
+The normality of the residuals was assessed using a Q-Q plot. The residuals approximately followed the theoretical normal distribution, suggesting that the assumption of normally distributed residuals was reasonably met.
+```{r}
+qqnorm(resid(model_cxcl13), main = "Q-Q Residuals")
+qqline(resid(model_cxcl13), col = "red")
+```
+"De residuen volgen grotendeels de normale verwerking van de referentie, met slechts een klein deel in de toegevoegde en andere stappen; dit staat vóór het geen zwaarwegend bezwaar tegen de geldigheid van het model."
+
+```{r}
+# 3. Normaliteit van random intercepts (donor)Je controleert of de random intercepts van de 92 donoren ongeveer normaal verdeeld zijn.
+
+qqnorm(unlist(ranef(model_cxcl13)$donor), main = "Q-Q Random Intercepts")
+qqline(unlist(ranef(model_cxcl13)$donor), col = "red")
+
+par(mfrow = c(1, 1))
+```
+conclusion: The normality of the random effects was assessed using a Q-Q plot of the donor-specific random intercepts. The random intercepts approximately followed a normal distribution, suggesting that the normality assumption for the random effects was reasonably met.
+
+visualizeren:
+paired-plot
+```{r}
+library(ggplot2)
+library(dplyr)
+library(ggplot2)
+library(dplyr)
+
+# Haal de data uit het mixed model
+data_cxcl13 <- model.frame(model_cxcl13)
+
+# Maak de paired plot
+ggplot(data_cxcl13,
+       aes(x = visit,
+           y = CXCL13,
+           group = donor,
+           color = age_group)) +
+
+  geom_line(alpha = 0.35, linewidth = 0.5) +
+
+  geom_point(size = 2, alpha = 0.75) +
+
+  stat_summary(
+    aes(group = age_group),
+    fun = mean,
+    geom = "line",
+    linewidth = 1.3
+  ) +
+
+  stat_summary(
+    aes(group = age_group),
+    fun = mean,
+    geom = "point",
+    size = 3
+  ) +
+
+  labs(
+    title = "Individual CXCL13 changes between Day 0 and Day 7",
+    x = "Visit",
+    y = "CXCL13",
+    color = "Age group"
+  ) +
+
+  theme_classic()
+```
+conclusie: De individuele profielen in grote groepen hebben latentie in de CXCL13-waarden van dag 0 tot en met dag 7, zowel voor jongvolwassenen als ouderen grotendeels stabiel blijven met voldoende parallelle trajecten, terwijl hij een aanzienlijk verschillend bestaan ​​tussen individuele donoren heeft."
+
+
