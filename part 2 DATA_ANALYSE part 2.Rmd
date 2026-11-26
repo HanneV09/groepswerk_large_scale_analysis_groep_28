@@ -8,15 +8,16 @@ date: "2026-11-25"
 ```{r}
 library(tidyverse)
 ```
+
 ```{r}
 list.files()
 ```
 
 ```{r}
 # data import
-proteins_npx_raw <- read_csv("proteins_npx_raw.csv")
-sample_metadata <- read_csv("sample_metadata.csv")
-protein_annotation <- read_csv("protein_annotation.csv")
+proteins_npx_raw <- read_csv("../../data/proteins_npx_raw.csv")
+sample_metadata <- read_csv("../../data/sample_metadata.csv")
+protein_annotation <- read_csv("../../data/protein_annotation.csv")
 ```
 # Controleer dimensies en unieke ID's
 ```{r}
@@ -49,7 +50,7 @@ colSums(is.na(sample_metadata[, c(
   "cmv.igg_serology_interpretation"
 )]))
 ```
-CMV has lots of missing values, therefore its better that we let this out of our hypothese, otherwise we will lose lots of statistical power. 
+CMV.igg serology_interpretation has lots of missing values, therefore its better that we let this out of our hypothese, otherwise we will lose lots of statistical power. Therefore its better to use cmv_status 
 
 merge of the data
 ```{r}
@@ -221,14 +222,13 @@ conclusie hieruit:
 The linear mixed-effects model, including donor as a random intercept, showed substantial inter-individual variability, with an intraclass correlation coefficient (ICC) of 0.606. No significant main effect of visit (Day 7 vs. Day 0; β = -0.006, p = 0.946) or age group (Older Adults vs. Younger Adults; β = -0.220, p = 0.165) was observed. Furthermore, no significant interaction between visit and age group was detected (β = -0.095, p = 0.472), indicating no evidence of differential changes over time between the two age groups. Significant effects were observed for sex (β = -0.347, p = 0.012) and batch 20212223 (β = -0.901, p = 0.010).
 ```{r}
 library(emmeans)
-emm <- emmeans(model, ~ sample.visit * ageGroup)
+emm <- emmeans(model_protein_cxcl13, ~ visit * age_group)
 emm_df <- as.data.frame(emm)
-
 ggplot(emm_df,
-       aes(x = sample.visit,
+       aes(x = visit,
            y = emmean,
-           color = ageGroup,
-           group = ageGroup)) +
+           color = age_group,
+           group = age_group)) +
   geom_point(size = 3) +
   geom_line(linewidth = 1) +
   geom_errorbar(aes(ymin = lower.CL,
@@ -241,14 +241,33 @@ ggplot(emm_df,
   ) +
   theme_classic(base_size = 14)
 ```
+We zien dat young adults een hogere waarde hebben op beide meting dagen, het verschil tussen de 2 dagen is er niet echt. 
+Older Adults, hebben een duidelijk lagere waarden maar hebben wel een daling in dag 0 in vergelijking met dag 7.
 
+```{r}
+emm
+```
+Dit zijn de estimated marginal means (EMMs) van je model. Dat zijn de gemiddelde CXCL13-waarden per groep, gecorrigeerd voor sex, cmv_status en batch.
+
+```{r}
+pairs(emmeans(model_protein_cxcl13,
+~ age_group | visit))
+```
+Op Day 7 waren de CXCL13-niveaus significant hoger bij jonge volwassenen dan bij oudere volwassenen (p = 0.045).
+Maar dit betekent niet dat de vaccin response significant anders is want daarvoor zou de interactie signficant moeten zijn. Maar dat is hier niet het geval.
+
+```{r}
+pairs(emmeans(model_protein_cxcl13,
+              ~ visit | age_group))
+```
+CXCL13 levels did not change significantly between Day 0 and Day 7 in either young or older adults. Furthermore, no significant visit-by-age group interaction was observed, indicating that the temporal evolution of CXCL13 did not differ significantly between age groups. A post-hoc comparison showed higher CXCL13 levels in young adults compared with older adults at Day 7 (p = 0.045), but this isolated finding should be interpreted with caution given the absence of a significant overall age-group effect or interaction.
 
 model aannamens controleren 
 Lineariteit en homoscedasticiteit ( Residuen versus Fitted )
   = Lineariteit: is het verband tussen de voorspelde waarden en de uitkomstvariabele voldoende lineair?
   = Homoscedasticiteit: blijft de spreiding van de residuen ongeveer gelijk over het volledige bereik van de             voorspelde waarden?
 ```{r}
-plot(fitted(model_cxcl13), resid(model_cxcl13),
+plot(fitted(model_protein_cxcl13), resid(model_protein_cxcl13),
      xlab = "Fitted values", ylab = "Residuals",
      main = "Residuals vs Fitted")
 abline(h = 0, lty = 2, col = "pink")
@@ -257,16 +276,16 @@ conclusie: grafiek van residuen versus voorspelde waarden laat zien dat de resid
 # 2. Normaliteit van residuen
 The normality of the residuals was assessed using a Q-Q plot. The residuals approximately followed the theoretical normal distribution, suggesting that the assumption of normally distributed residuals was reasonably met.
 ```{r}
-qqnorm(resid(model_cxcl13), main = "Q-Q Residuals")
-qqline(resid(model_cxcl13), col = "red")
+qqnorm(resid(model_protein_cxcl13), main = "Q-Q Residuals")
+qqline(resid(model_protein_cxcl13), col = "red")
 ```
 "De residuen volgen grotendeels de normale verwerking van de referentie, met slechts een klein deel in de toegevoegde en andere stappen; dit staat vóór het geen zwaarwegend bezwaar tegen de geldigheid van het model."
 
 ```{r}
 # 3. Normaliteit van random intercepts (donor)Je controleert of de random intercepts van de 92 donoren ongeveer normaal verdeeld zijn.
 
-qqnorm(unlist(ranef(model_cxcl13)$donor), main = "Q-Q Random Intercepts")
-qqline(unlist(ranef(model_cxcl13)$donor), col = "red")
+qqnorm(unlist(ranef(model_protein_cxcl13)$donor), main = "Q-Q Random Intercepts")
+qqline(unlist(ranef(model_protein_cxcl13)$donor), col = "red")
 
 par(mfrow = c(1, 1))
 ```
@@ -281,7 +300,7 @@ library(ggplot2)
 library(dplyr)
 
 # Haal de data uit het mixed model
-data_cxcl13 <- model.frame(model_cxcl13)
+data_cxcl13 <- model.frame(model_protein_cxcl13)
 
 # Maak de paired plot
 ggplot(data_cxcl13,
@@ -309,7 +328,7 @@ ggplot(data_cxcl13,
   ) +
 
   labs(
-    title = "Individual CXCL13 changes between Day 0 and Day 7",
+    title = "CXCL13 concentrations before and after influenza vaccination",
     x = "Visit",
     y = "CXCL13",
     color = "Age group"
@@ -319,4 +338,11 @@ ggplot(data_cxcl13,
 ```
 conclusie: De individuele profielen in grote groepen hebben latentie in de CXCL13-waarden van dag 0 tot en met dag 7, zowel voor jongvolwassenen als ouderen grotendeels stabiel blijven met voldoende parallelle trajecten, terwijl hij een aanzienlijk verschillend bestaan ​​tussen individuele donoren heeft."
 
+rapporteren:
+```{r}
+summary(model_protein_cxcl13)
+```
+confint(model_protein_cxcl13)
+```
+No significant visit-by-age group interaction was observed for CXCL13 (β = -0.095, 95% CI [-0.353, 0.163], p = 0.472), indicating that the change in CXCL13 concentrations between Day 0 and Day 7 did not differ significantly between young and older adults.
 
