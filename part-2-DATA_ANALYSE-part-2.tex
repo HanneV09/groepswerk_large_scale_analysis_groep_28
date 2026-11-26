@@ -1,0 +1,2107 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+% fallback for those not using the hyperref driver hyperxmp:
+\makeatletter
+\@ifundefined{xmpquote}{\newcommand{\xmpquote}[1]{#1}}{}
+\makeatother
+\hypersetup{
+  pdftitle={groepswerk part 2},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{groepswerk part 2}
+\author{}
+\date{\vspace{-2.5em}2026-11-25}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching core tidyverse packages ------------------------ tidyverse 2.0.0 --
+## v dplyr     1.2.1     v readr     2.2.0
+## v forcats   1.0.1     v stringr   1.6.0
+## v ggplot2   4.0.3     v tibble    3.3.1
+## v lubridate 1.9.5     v tidyr     1.3.2
+## v purrr     1.2.2     
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+## i Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{list.files}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Data_groupproject.ipynb"            "LSABD_groepswerk_part1.ipynb"      
+## [3] "LSABD_groepswerk_part2.ipynb"       "part-2-DATA_ANALYSE-part-2.log"    
+## [5] "part-2-DATA_ANALYSE-part-2.Rmd"     "part-2-DATA_ANALYSE-part-2.tex"    
+## [7] "part 2 DATA_ANALYSE part 2.Rmd"     "Part3_multiple_testing_START.ipynb"
+## [9] "README.md"
+\end{verbatim}
+
+Part 1: Preparing and understanding data for Part 2 step 1
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# data importeren }
+\NormalTok{proteins\_npx\_raw }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../../data/proteins\_npx\_raw.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 867 Columns: 1482
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr    (1): sample_kit_id
+## dbl (1481): AARSD1, ABHD14B, ABL1, ACAA1, ACAN, ACE2, ACOX1, ACP5, ACP6, ACT...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sample\_metadata }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../../data/sample\_metadata.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 867 Columns: 76
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (16): sample_kit_id, subject.subjectGuid, cohort.cohortGuid, subject.bio...
+## dbl (60): sample.subjectAgeAtDraw, sample.daysSinceFirstVisit, n_missing_npx...
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{protein\_annotation }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"../../data/protein\_annotation.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 1481 Columns: 12
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (6): protein, assay, olink_id, uniprot, panel, same_assay_as
+## dbl (5): npx_median, lod_median, n_missing, pct_below_lod, pct_missing
+## lgl (1): duplicate_olink_id
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\section{examine data dimensions to ensure that these datasets can be
+merged later (we know this from data analysis in
+step1)}\label{examine-data-dimensions-to-ensure-that-these-datasets-can-be-merged-later-we-know-this-from-data-analysis-in-step1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(sample\_metadata)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 867  76
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(proteins\_npx\_raw)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  867 1482
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#You check the IDs because they are the key used to link metadata and proteomics data.}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata}\SpecialCharTok{$}\NormalTok{sample\_kit\_id))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(proteins\_npx\_raw}\SpecialCharTok{$}\NormalTok{sample\_kit\_id))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+conclusie: The dimensions of both datasets were consistent, indicating
+that the datasets can be merged. Furthermore, no missing values were
+detected in the sample\_kit\_id variable in either dataset, allowing
+reliable merging based on this identifier.
+
+step 2: missing values \#missing values in metadata:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#globale missingness}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8709
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata))}\SpecialCharTok{*}\DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13.21708
+\end{verbatim}
+
+\#where are the missing values located
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{(}\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata)), }\AttributeTok{decreasing =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                cmv.igg_serology cmv.igg_serology_interpretation 
+##                             775                             775 
+##                  infl.anti_ccp3                 infl.anti_ccp31 
+##                             770                             770 
+##      infl.rf_iga_interpretation              infl.rf_iga_result 
+##                             770                             770 
+##      infl.rf_igm_interpretation              infl.rf_igm_result 
+##                             770                             770 
+##                    chem.egfr_aa                chem.egfr_non_aa 
+##                             718                             717 
+##                    chem.protein                          am.bmi 
+##                             248                             185 
+##                       am.height                       am.weight 
+##                             185                              37 
+##             lip.cholesterol_ldl                          bc.mpv 
+##                              24                              17 
+##                     infl.hs_crp                        infl.esr 
+##                              16                              12 
+##                        chem.alt                    chem.albumin 
+##                              10                              10 
+##       chem.alkaline_phosphatase                        chem.ast 
+##                              10                              10 
+##                     chem.t_bili                        chem.bun 
+##                              10                              10 
+##                    chem.calcium                        chem.co2 
+##                              10                              10 
+##                         chem.cl                 chem.creatinine 
+##                              10                              10 
+##                     chem.globin                    chem.glucose 
+##                              10                              10 
+##                  chem.potassium                     chem.sodium 
+##                              10                              10 
+##               bc.perc_basophils             bc.perc_eosinophils 
+##                              10                              10 
+##             bc.perc_lymphocytes               bc.perc_monocytes 
+##                              10                              10 
+##             bc.perc_neutrophils               bc.basophil_count 
+##                              10                              10 
+##             bc.eosinophil_count             bc.lymphocyte_count 
+##                              10                              10 
+##               bc.monocyte_count             bc.neutrophil_count 
+##                              10                              10 
+##                   bc.hematocrit                   bc.hemoglobin 
+##                              10                              10 
+##                          bc.mch                         bc.mchc 
+##                              10                              10 
+##                          bc.mcv               bc.platelet_count 
+##                              10                              10 
+##         bc.red_blood_cell_count                          bc.rdw 
+##                              10                              10 
+##                          bc.wbc             lip.cholesterol_hdl 
+##                              10                              10 
+##         lip.cholesterol_non_hdl           lip.cholesterol_total 
+##                              10                              10 
+##        lip.chlesterol_hdl_ratio               lip.triglycerides 
+##                              10                              10 
+##                   sample_kit_id             subject.subjectGuid 
+##                               0                               0 
+##               cohort.cohortGuid           subject.biologicalSex 
+##                               0                               0 
+##                subject.ageGroup         sample.subjectAgeAtDraw 
+##                               0                               0 
+##                sample.visitName      sample.daysSinceFirstVisit 
+##                               0                               0 
+##                      cmv_status                  olink_plate_id 
+##                               0                               0 
+##                  olink_batch_id                   n_missing_npx 
+##                               0                               0 
+##                   pct_below_lod               subject.birthYear 
+##                               0                               0 
+##          subject.ageAtFirstDraw                    subject.race 
+##                               0                               0 
+##               subject.ethnicity             sample.visitDetails 
+##                               0                               0 
+##                 sample.drawYear                    subject_guid 
+##                               0                               0
+\end{verbatim}
+
+\#visualisation in a graphic
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{missing\_metadata }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Variable =} \FunctionTok{names}\NormalTok{(sample\_metadata),}
+  \AttributeTok{Missing\_Percentage =} \FunctionTok{colMeans}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata)) }\SpecialCharTok{*} \DecValTok{100}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}
+\NormalTok{  missing\_metadata,}
+  \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Missing\_Percentage)}
+\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}
+    \AttributeTok{bins =} \DecValTok{20}\NormalTok{,}
+    \AttributeTok{fill =} \StringTok{"\#2E8B57"}\NormalTok{,}
+    \AttributeTok{colour =} \StringTok{"black"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}
+    \AttributeTok{xintercept =} \DecValTok{80}\NormalTok{,}
+    \AttributeTok{colour =} \StringTok{"red"}\NormalTok{,}
+    \AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{,}
+    \AttributeTok{linewidth =} \DecValTok{1}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of missing values in metadata variables"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"\% missing values"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Number of metadata variables"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-8-1.pdf}}
+conclusion: Most metadata variables contained few or no missing values,
+indicating that the overall metadata quality is high. However, a small
+number of variables exhibited more than 80\% missing values. These
+variables were considered insufficiently informative and were therefore
+removed from further analyses. \#remove the data with more than 80\%
+missing values
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{missing\_metadata }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{filter}\NormalTok{(Missing\_Percentage }\SpecialCharTok{\textgreater{}} \DecValTok{80}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                                                        Variable
+## chem.egfr_aa                                       chem.egfr_aa
+## chem.egfr_non_aa                               chem.egfr_non_aa
+## cmv.igg_serology                               cmv.igg_serology
+## cmv.igg_serology_interpretation cmv.igg_serology_interpretation
+## infl.anti_ccp3                                   infl.anti_ccp3
+## infl.anti_ccp31                                 infl.anti_ccp31
+## infl.rf_iga_interpretation           infl.rf_iga_interpretation
+## infl.rf_iga_result                           infl.rf_iga_result
+## infl.rf_igm_interpretation           infl.rf_igm_interpretation
+## infl.rf_igm_result                           infl.rf_igm_result
+##                                 Missing_Percentage
+## chem.egfr_aa                              82.81430
+## chem.egfr_non_aa                          82.69896
+## cmv.igg_serology                          89.38870
+## cmv.igg_serology_interpretation           89.38870
+## infl.anti_ccp3                            88.81200
+## infl.anti_ccp31                           88.81200
+## infl.rf_iga_interpretation                88.81200
+## infl.rf_iga_result                        88.81200
+## infl.rf_igm_interpretation                88.81200
+## infl.rf_igm_result                        88.81200
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vars\_remove }\OtherTok{\textless{}{-}}\NormalTok{ missing\_metadata }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{filter}\NormalTok{(Missing\_Percentage }\SpecialCharTok{\textgreater{}} \DecValTok{80}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{pull}\NormalTok{(Variable)}
+\NormalTok{sample\_metadata\_filtered }\OtherTok{\textless{}{-}}\NormalTok{ sample\_metadata }\SpecialCharTok{\%\textgreater{}\%}
+\FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{any\_of}\NormalTok{(vars\_remove))}
+\end{Highlighting}
+\end{Shaded}
+
+Several variables contained extensive missingness (\textgreater80\%),
+suggesting that these measurements were only available for a subset of
+participants rather than being randomly missing. Such variables were
+considered unsuitable for analyses involving the full cohort.
+
+counting the missing values (NAs) in age group, biological sex and CMV
+status to check how complete the metadata is. Samples with a missing
+value in these columns would be dropped from any model that uses them,
+so this tells you how many samples you can actually analyze.
+
+\#how many missing values are there in the parameters i am interested in
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(sample\_metadata[, }\FunctionTok{c}\NormalTok{(}
+  \StringTok{"subject.ageGroup"}\NormalTok{,}
+  \StringTok{"subject.biologicalSex"}\NormalTok{,}
+  \StringTok{"cmv\_status"}
+\NormalTok{)]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      subject.ageGroup subject.biologicalSex            cmv_status 
+##                     0                     0                     0
+\end{verbatim}
+
+conclusion: There are no missing values in any of the three columns. Age
+group, biological sex and CMV status are filled in for every sample, so
+we can use them in our analysis without losing any samples to missing
+data.
+
+step 3: merge of the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(}
+\NormalTok{  sample\_metadata,}
+\NormalTok{  proteins\_npx\_raw,}
+  \AttributeTok{by =} \StringTok{"sample\_kit\_id"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+to check if the data is merged
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  867 1557
+\end{verbatim}
+
+to find the exact ``CXCL13'' name in the data set
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{grep}\NormalTok{(}\StringTok{"CXCL13"}\NormalTok{, }\FunctionTok{names}\NormalTok{(data), }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "CXCL13"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{sample.visitName)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##        Flu Year 1 Day 0        Flu Year 1 Day 7       Flu Year 1 Day 90 
+##                      92                      92                      89 
+##  Flu Year 1 Stand-Alone        Flu Year 2 Day 0        Flu Year 2 Day 7 
+##                      14                      84                      83 
+##       Flu Year 2 Day 90  Flu Year 2 Stand-Alone  Flu Year 3 Stand-Alone 
+##                      82                      22                      47 
+##  Immune Variation Day 0  Immune Variation Day 7 Immune Variation Day 90 
+##                      89                      89                      84
+\end{verbatim}
+
+step 4: selection of the data we will use \#we will analyse the cohort
+flu Year 1 day O in comparison to Flu Year Day 7 select this data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{analysis\_data }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(}
+\NormalTok{  data,}
+\NormalTok{  sample.visitName }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"Flu Year 1 Day 0"}\NormalTok{,}
+    \StringTok{"Flu Year 1 Day 7"}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table}\NormalTok{(analysis\_data}\SpecialCharTok{$}\NormalTok{sample.visitName)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Flu Year 1 Day 0 Flu Year 1 Day 7 
+##               92               92
+\end{verbatim}
+
+\section{}\label{section}
+
+search for the unique IDs per patient so that we can view the
+measurements per patient
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(analysis\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    [1] "sample_kit_id"                   "subject.subjectGuid"            
+##    [3] "cohort.cohortGuid"               "subject.biologicalSex"          
+##    [5] "subject.ageGroup"                "sample.subjectAgeAtDraw"        
+##    [7] "sample.visitName"                "sample.daysSinceFirstVisit"     
+##    [9] "cmv_status"                      "olink_plate_id"                 
+##   [11] "olink_batch_id"                  "n_missing_npx"                  
+##   [13] "pct_below_lod"                   "subject.birthYear"              
+##   [15] "subject.ageAtFirstDraw"          "subject.race"                   
+##   [17] "subject.ethnicity"               "sample.visitDetails"            
+##   [19] "sample.drawYear"                 "am.bmi"                         
+##   [21] "am.height"                       "am.weight"                      
+##   [23] "chem.alt"                        "chem.albumin"                   
+##   [25] "chem.alkaline_phosphatase"       "chem.ast"                       
+##   [27] "chem.t_bili"                     "chem.bun"                       
+##   [29] "chem.calcium"                    "chem.co2"                       
+##   [31] "chem.cl"                         "chem.creatinine"                
+##   [33] "chem.egfr_aa"                    "chem.egfr_non_aa"               
+##   [35] "chem.globin"                     "chem.glucose"                   
+##   [37] "chem.potassium"                  "chem.protein"                   
+##   [39] "chem.sodium"                     "bc.perc_basophils"              
+##   [41] "bc.perc_eosinophils"             "bc.perc_lymphocytes"            
+##   [43] "bc.perc_monocytes"               "bc.perc_neutrophils"            
+##   [45] "bc.basophil_count"               "bc.eosinophil_count"            
+##   [47] "bc.lymphocyte_count"             "bc.monocyte_count"              
+##   [49] "bc.neutrophil_count"             "bc.hematocrit"                  
+##   [51] "bc.hemoglobin"                   "bc.mch"                         
+##   [53] "bc.mchc"                         "bc.mcv"                         
+##   [55] "bc.mpv"                          "bc.platelet_count"              
+##   [57] "bc.red_blood_cell_count"         "bc.rdw"                         
+##   [59] "bc.wbc"                          "cmv.igg_serology"               
+##   [61] "cmv.igg_serology_interpretation" "infl.anti_ccp3"                 
+##   [63] "infl.anti_ccp31"                 "infl.hs_crp"                    
+##   [65] "infl.rf_iga_interpretation"      "infl.rf_iga_result"             
+##   [67] "infl.rf_igm_interpretation"      "infl.rf_igm_result"             
+##   [69] "infl.esr"                        "lip.cholesterol_hdl"            
+##   [71] "lip.cholesterol_ldl"             "lip.cholesterol_non_hdl"        
+##   [73] "lip.cholesterol_total"           "lip.chlesterol_hdl_ratio"       
+##   [75] "lip.triglycerides"               "subject_guid"                   
+##   [77] "AARSD1"                          "ABHD14B"                        
+##   [79] "ABL1"                            "ACAA1"                          
+##   [81] "ACAN"                            "ACE2"                           
+##   [83] "ACOX1"                           "ACP5"                           
+##   [85] "ACP6"                            "ACTA2"                          
+##   [87] "ACTN4"                           "ACVRL1"                         
+##   [89] "ACY1"                            "ADA"                            
+##   [91] "ADA2"                            "ADAM15"                         
+##   [93] "ADAM22"                          "ADAM23"                         
+##   [95] "ADAM8"                           "ADAMTS13"                       
+##   [97] "ADAMTS15"                        "ADAMTS16"                       
+##   [99] "ADAMTS8"                         "ADCYAP1R1"                      
+##  [101] "ADGRB3"                          "ADGRE2"                         
+##  [103] "ADGRE5"                          "ADGRG1"                         
+##  [105] "ADGRG2"                          "ADH4"                           
+##  [107] "ADM"                             "AFP"                            
+##  [109] "AGER"                            "AGR2"                           
+##  [111] "AGR3"                            "AGRN"                           
+##  [113] "AGRP"                            "AGXT"                           
+##  [115] "AHCY"                            "AHSP"                           
+##  [117] "AIF1"                            "AIFM1"                          
+##  [119] "AK1"                             "AKR1B1"                         
+##  [121] "AKR1C4"                          "AKT1S1"                         
+##  [123] "AKT3"                            "ALCAM"                          
+##  [125] "ALDH1A1"                         "ALDH3A1"                        
+##  [127] "ALPP"                            "AMBN"                           
+##  [129] "AMBP"                            "AMFR"                           
+##  [131] "AMIGO2"                          "AMN"                            
+##  [133] "AMY2A"                           "AMY2B"                          
+##  [135] "ANG"                             "ANGPT1"                         
+##  [137] "ANGPT2"                          "ANGPTL1"                        
+##  [139] "ANGPTL2"                         "ANGPTL3"                        
+##  [141] "ANGPTL4"                         "ANGPTL7"                        
+##  [143] "ANKRD54"                         "ANPEP"                          
+##  [145] "ANXA10"                          "ANXA11"                         
+##  [147] "ANXA3"                           "ANXA4"                          
+##  [149] "ANXA5"                           "AOC1"                           
+##  [151] "AOC3"                            "APBB1IP"                        
+##  [153] "APEX1"                           "APLP1"                          
+##  [155] "APOH"                            "APOM"                           
+##  [157] "APP"                             "APRT"                           
+##  [159] "AREG"                            "ARG1"                           
+##  [161] "ARHGAP1"                         "ARHGAP25"                       
+##  [163] "ARHGEF12"                        "ARID4B"                         
+##  [165] "ARNT"                            "ARSA"                           
+##  [167] "ARSB"                            "ART3"                           
+##  [169] "ARTN"                            "ASAH2"                          
+##  [171] "ASGR1"                           "ATF2"                           
+##  [173] "ATG4A"                           "ATOX1"                          
+##  [175] "ATP5IF1"                         "ATP5PO"                         
+##  [177] "ATP6AP2"                         "ATP6V1D"                        
+##  [179] "ATP6V1F"                         "ATXN10"                         
+##  [181] "AXIN1"                           "AXL"                            
+##  [183] "AZU1"                            "B4GALT1"                        
+##  [185] "B4GAT1"                          "BACH1"                          
+##  [187] "BAG3"                            "BAG6"                           
+##  [189] "BAIAP2"                          "BAMBI"                          
+##  [191] "BANK1"                           "BAX"                            
+##  [193] "BCAM"                            "BCAN"                           
+##  [195] "BCL2L11"                         "BCR"                            
+##  [197] "BGN"                             "BID"                            
+##  [199] "BIN2"                            "BIRC2"                          
+##  [201] "BLMH"                            "BLVRB"                          
+##  [203] "BMP4"                            "BMP6"                           
+##  [205] "BOC"                             "BPIFB1"                         
+##  [207] "BRK1"                            "BSG"                            
+##  [209] "BST1"                            "BST2"                           
+##  [211] "BTC"                             "BTN2A1"                         
+##  [213] "BTN3A2"                          "C19orf12"                       
+##  [215] "C1QA"                            "C1QTNF1"                        
+##  [217] "C2"                              "C2CD2L"                         
+##  [219] "C4BPB"                           "CA1"                            
+##  [221] "CA11"                            "CA12"                           
+##  [223] "CA13"                            "CA14"                           
+##  [225] "CA2"                             "CA3"                            
+##  [227] "CA4"                             "CA5A"                           
+##  [229] "CA6"                             "CA9"                            
+##  [231] "CALB1"                           "CALB2"                          
+##  [233] "CALCA"                           "CALCOCO1"                       
+##  [235] "CAMKK1"                          "CANT1"                          
+##  [237] "CAPG"                            "CARHSP1"                        
+##  [239] "CASC4"                           "CASP1"                          
+##  [241] "CASP10"                          "CASP2"                          
+##  [243] "CASP3"                           "CASP8"                          
+##  [245] "CBLIF"                           "CBLN4"                          
+##  [247] "CC2D1A"                          "CCDC80"                         
+##  [249] "CCL11"                           "CCL13"                          
+##  [251] "CCL14"                           "CCL15"                          
+##  [253] "CCL16"                           "CCL17"                          
+##  [255] "CCL18"                           "CCL19"                          
+##  [257] "CCL2"                            "CCL20"                          
+##  [259] "CCL21"                           "CCL22"                          
+##  [261] "CCL23"                           "CCL24"                          
+##  [263] "CCL25"                           "CCL26"                          
+##  [265] "CCL27"                           "CCL28"                          
+##  [267] "CCL3"                            "CCL4"                           
+##  [269] "CCL5"                            "CCL7"                           
+##  [271] "CCL8"                            "CCN1"                           
+##  [273] "CCN2"                            "CCN3"                           
+##  [275] "CCN4"                            "CCN5"                           
+##  [277] "CCS"                             "CCT5"                           
+##  [279] "CD109"                           "CD14"                           
+##  [281] "CD160"                           "CD163"                          
+##  [283] "CD164"                           "CD177"                          
+##  [285] "CD1C"                            "CD200"                          
+##  [287] "CD200R1"                         "CD207"                          
+##  [289] "CD209"                           "CD22"                           
+##  [291] "CD244"                           "CD27"                           
+##  [293] "CD274"                           "CD276"                          
+##  [295] "CD28"                            "CD2AP"                          
+##  [297] "CD300C"                          "CD300E"                         
+##  [299] "CD300LF"                         "CD300LG"                        
+##  [301] "CD302"                           "CD33"                           
+##  [303] "CD34"                            "CD38"                           
+##  [305] "CD4"                             "CD40"                           
+##  [307] "CD40LG"                          "CD46"                           
+##  [309] "CD48"                            "CD5"                            
+##  [311] "CD55"                            "CD58"                           
+##  [313] "CD59"                            "CD6"                            
+##  [315] "CD63"                            "CD69"                           
+##  [317] "CD70"                            "CD74"                           
+##  [319] "CD79B"                           "CD83"                           
+##  [321] "CD84"                            "CD8A"                           
+##  [323] "CD93"                            "CD97"                           
+##  [325] "CD99"                            "CD99L2"                         
+##  [327] "CDC27"                           "CDC37"                          
+##  [329] "CDCP1"                           "CDH1"                           
+##  [331] "CDH15"                           "CDH17"                          
+##  [333] "CDH2"                            "CDH3"                           
+##  [335] "CDH5"                            "CDH6"                           
+##  [337] "CDHR1"                           "CDHR2"                          
+##  [339] "CDHR5"                           "CDKN1A"                         
+##  [341] "CDKN2D"                          "CDNF"                           
+##  [343] "CDON"                            "CDSN"                           
+##  [345] "CEACAM1"                         "CEACAM21"                       
+##  [347] "CEACAM3"                         "CEACAM5"                        
+##  [349] "CEACAM8"                         "CEBPB"                          
+##  [351] "CELA3A"                          "CEP164"                         
+##  [353] "CEP20"                           "CEP43"                          
+##  [355] "CEP85"                           "CERT"                           
+##  [357] "CES1"                            "CES2"                           
+##  [359] "CES3"                            "CETN2"                          
+##  [361] "CFC1"                            "CGA"                            
+##  [363] "CGREF1"                          "CHAC2"                          
+##  [365] "CHEK2"                           "CHGB"                           
+##  [367] "CHI3L1"                          "CHIT1"                          
+##  [369] "CHL1"                            "CHMP1A"                         
+##  [371] "CHRDL1"                          "CHRDL2"                         
+##  [373] "CIAPIN1"                         "CKAP4"                          
+##  [375] "CKMT1A_CKMT1B"                   "CLC"                            
+##  [377] "CLEC10A"                         "CLEC11A"                        
+##  [379] "CLEC14A"                         "CLEC1A"                         
+##  [381] "CLEC1B"                          "CLEC4A"                         
+##  [383] "CLEC4C"                          "CLEC4D"                         
+##  [385] "CLEC4G"                          "CLEC5A"                         
+##  [387] "CLEC6A"                          "CLEC7A"                         
+##  [389] "CLIP2"                           "CLMP"                           
+##  [391] "CLPP"                            "CLPS"                           
+##  [393] "CLSPN"                           "CLSTN1"                         
+##  [395] "CLSTN2"                          "CLTA"                           
+##  [397] "CLUL1"                           "CNDP1"                          
+##  [399] "CNPY2"                           "CNPY4"                          
+##  [401] "CNST"                            "CNTN1"                          
+##  [403] "CNTN2"                           "CNTN3"                          
+##  [405] "CNTN4"                           "CNTN5"                          
+##  [407] "CNTNAP2"                         "COL18A1"                        
+##  [409] "COL1A1"                          "COL4A1"                         
+##  [411] "COL6A3"                          "COL9A1"                         
+##  [413] "COLEC12"                         "COMP"                           
+##  [415] "COMT"                            "COPE"                           
+##  [417] "CORO1A"                          "COX5B"                          
+##  [419] "CPA1"                            "CPA2"                           
+##  [421] "CPB1"                            "CPE"                            
+##  [423] "CPM"                             "CPPED1"                         
+##  [425] "CPVL"                            "CPXM1"                          
+##  [427] "CR2"                             "CRACR2A"                        
+##  [429] "CRADD"                           "CREG1"                          
+##  [431] "CRELD2"                          "CRH"                            
+##  [433] "CRHBP"                           "CRHR1"                          
+##  [435] "CRIM1"                           "CRIP2"                          
+##  [437] "CRISP2"                          "CRKL"                           
+##  [439] "CRLF1"                           "CRNN"                           
+##  [441] "CRTAC1"                          "CRTAM"                          
+##  [443] "CRX"                             "CSF1"                           
+##  [445] "CSF2RA"                          "CSF3"                           
+##  [447] "CST3"                            "CST5"                           
+##  [449] "CST6"                            "CST7"                           
+##  [451] "CSTB"                            "CTF1"                           
+##  [453] "CTRB1"                           "CTRC"                           
+##  [455] "CTSB"                            "CTSC"                           
+##  [457] "CTSD"                            "CTSF"                           
+##  [459] "CTSH"                            "CTSL"                           
+##  [461] "CTSO"                            "CTSS"                           
+##  [463] "CTSV"                            "CTSZ"                           
+##  [465] "CX3CL1"                          "CXADR"                          
+##  [467] "CXCL1"                           "CXCL10"                         
+##  [469] "CXCL11"                          "CXCL12"                         
+##  [471] "CXCL13"                          "CXCL14"                         
+##  [473] "CXCL16"                          "CXCL17"                         
+##  [475] "CXCL3"                           "CXCL5"                          
+##  [477] "CXCL6"                           "CXCL8_OID20153"                 
+##  [479] "CXCL8_OID20631"                  "CXCL8_OID20997"                 
+##  [481] "CXCL8_OID21430"                  "CXCL9"                          
+##  [483] "DAB2"                            "DAG1"                           
+##  [485] "DAPP1"                           "DARS"                           
+##  [487] "DARS1"                           "DBI"                            
+##  [489] "DBNL"                            "DCBLD2"                         
+##  [491] "DCN"                             "DCTN1"                          
+##  [493] "DCTN2"                           "DCTN6"                          
+##  [495] "DCTPP1"                          "DCXR"                           
+##  [497] "DDAH1"                           "DDC"                            
+##  [499] "DDR1"                            "DDX58"                          
+##  [501] "DECR1"                           "DEFA1_DEFA1B"                   
+##  [503] "DEFB4A_DEFB4B"                   "DFFA"                           
+##  [505] "DGKZ"                            "DIABLO"                         
+##  [507] "DKK1"                            "DKK3"                           
+##  [509] "DKK4"                            "DKKL1"                          
+##  [511] "DLK1"                            "DLL1"                           
+##  [513] "DNAJA2"                          "DNAJB1"                         
+##  [515] "DNAJB8"                          "DNER"                           
+##  [517] "DNMBP"                           "DNPH1"                          
+##  [519] "DOK2"                            "DPEP1"                          
+##  [521] "DPEP2"                           "DPP10"                          
+##  [523] "DPP4"                            "DPP6"                           
+##  [525] "DPP7"                            "DPT"                            
+##  [527] "DPY30"                           "DRAXIN"                         
+##  [529] "DRG2"                            "DSC2"                           
+##  [531] "DSG2"                            "DSG3"                           
+##  [533] "DSG4"                            "DTX3"                           
+##  [535] "DUOX2"                           "DUSP3"                          
+##  [537] "EBAG9"                           "EBI3_IL27"                      
+##  [539] "ECE1"                            "EDA2R"                          
+##  [541] "EDAR"                            "EDIL3"                          
+##  [543] "EFEMP1"                          "EFNA1"                          
+##  [545] "EFNA4"                           "EGF"                            
+##  [547] "EGFL7"                           "EGFR"                           
+##  [549] "EGLN1"                           "EIF4B"                          
+##  [551] "EIF4EBP1"                        "EIF4G1"                         
+##  [553] "EIF5A"                           "ELOA"                           
+##  [555] "ENAH"                            "ENG"                            
+##  [557] "ENO1"                            "ENO2"                           
+##  [559] "ENPP2"                           "ENPP5"                          
+##  [561] "ENPP7"                           "ENTPD2"                         
+##  [563] "ENTPD5"                          "ENTPD6"                         
+##  [565] "EPCAM"                           "EPHA1"                          
+##  [567] "EPHA10"                          "EPHA2"                          
+##  [569] "EPHB4"                           "EPHB6"                          
+##  [571] "EPHX2"                           "EPO"                            
+##  [573] "EPS8L2"                          "ERBB2"                          
+##  [575] "ERBB3"                           "ERBB4"                          
+##  [577] "ERBIN"                           "EREG"                           
+##  [579] "ERP44"                           "ESAM"                           
+##  [581] "ESM1"                            "EZR"                            
+##  [583] "F11R"                            "F2R"                            
+##  [585] "F3"                              "F7"                             
+##  [587] "F9"                              "FABP1"                          
+##  [589] "FABP2"                           "FABP4"                          
+##  [591] "FABP5"                           "FABP6"                          
+##  [593] "FABP9"                           "FADD"                           
+##  [595] "FAM3B"                           "FAM3C"                          
+##  [597] "FAP"                             "FAS"                            
+##  [599] "FASLG"                           "FBP1"                           
+##  [601] "FCAR"                            "FCER2"                          
+##  [603] "FCGR2A"                          "FCGR2B"                         
+##  [605] "FCGR3B"                          "FCN2"                           
+##  [607] "FCRL1"                           "FCRL2"                          
+##  [609] "FCRL3"                           "FCRL5"                          
+##  [611] "FCRL6"                           "FCRLB"                          
+##  [613] "FEN1"                            "FES"                            
+##  [615] "FETUB"                           "FGF19"                          
+##  [617] "FGF2"                            "FGF21"                          
+##  [619] "FGF23"                           "FGF5"                           
+##  [621] "FGFBP1"                          "FGFR1OP"                        
+##  [623] "FGFR2"                           "FGR"                            
+##  [625] "FHIT"                            "FIS1"                           
+##  [627] "FKBP1B"                          "FKBP4"                          
+##  [629] "FKBP5"                           "FKBP7"                          
+##  [631] "FLI1"                            "FLRT2"                          
+##  [633] "FLT1"                            "FLT3"                           
+##  [635] "FLT3LG"                          "FLT4"                           
+##  [637] "FMNL1"                           "FMR1"                           
+##  [639] "FOLR1"                           "FOLR2"                          
+##  [641] "FOLR3"                           "FOPNL"                          
+##  [643] "FOSB"                            "FOXO1"                          
+##  [645] "FOXO3"                           "FRZB"                           
+##  [647] "FST"                             "FSTL3"                          
+##  [649] "FUCA1"                           "FURIN"                          
+##  [651] "FUS"                             "FUT3_FUT5"                      
+##  [653] "FUT8"                            "FXN"                            
+##  [655] "FXYD5"                           "FYB1"                           
+##  [657] "GAL"                             "GALNT10"                        
+##  [659] "GALNT2"                          "GALNT3"                         
+##  [661] "GALNT7"                          "GAS6"                           
+##  [663] "GBP2"                            "GBP4"                           
+##  [665] "GCG"                             "GCNT1"                          
+##  [667] "GDF15"                           "GDF2"                           
+##  [669] "GDNF"                            "GFAP"                           
+##  [671] "GFER"                            "GFOD2"                          
+##  [673] "GFRA1"                           "GFRA2"                          
+##  [675] "GFRA3"                           "GGA1"                           
+##  [677] "GGH"                             "GGT1"                           
+##  [679] "GGT5"                            "GH1"                            
+##  [681] "GH2"                             "GHRHR"                          
+##  [683] "GHRL"                            "GKN1"                           
+##  [685] "GLB1"                            "GLO1"                           
+##  [687] "GLOD4"                           "GLRX"                           
+##  [689] "GLT8D2"                          "GMPR"                           
+##  [691] "GNE"                             "GNLY"                           
+##  [693] "GOLM2"                           "GOPC"                           
+##  [695] "GP1BA"                           "GP2"                            
+##  [697] "GP6"                             "GPA33"                          
+##  [699] "GPC1"                            "GPC5"                           
+##  [701] "GPKOW"                           "GPNMB"                          
+##  [703] "GPR37"                           "GRAP2"                          
+##  [705] "GRK5"                            "GRN"                            
+##  [707] "GRPEL1"                          "GSAP"                           
+##  [709] "GSTA1"                           "GSTA3"                          
+##  [711] "GSTP1"                           "GUCA2A"                         
+##  [713] "GUSB"                            "GYS1"                           
+##  [715] "GZMA"                            "GZMB"                           
+##  [717] "GZMH"                            "HAGH"                           
+##  [719] "HAO1"                            "HARS"                           
+##  [721] "HARS1"                           "HAVCR1"                         
+##  [723] "HAVCR2"                          "HBEGF"                          
+##  [725] "HBQ1"                            "HCLS1"                          
+##  [727] "HDGF"                            "HEBP1"                          
+##  [729] "HEXIM1"                          "HGF"                            
+##  [731] "HGS"                             "HK2"                            
+##  [733] "HLA-DRA"                         "HLA-E"                          
+##  [735] "HMBS"                            "HMOX1"                          
+##  [737] "HMOX2"                           "HNMT"                           
+##  [739] "HNRNPK"                          "HPCAL1"                         
+##  [741] "HPGDS"                           "HS3ST3B1"                       
+##  [743] "HS6ST1"                          "HSD11B1"                        
+##  [745] "HSP90B1"                         "HSPA1A"                         
+##  [747] "HSPB1"                           "HSPB6"                          
+##  [749] "HSPG2"                           "HTRA2"                          
+##  [751] "HYAL1"                           "HYOU1"                          
+##  [753] "ICA1"                            "ICAM1"                          
+##  [755] "ICAM2"                           "ICAM3"                          
+##  [757] "ICAM4"                           "ICAM5"                          
+##  [759] "ICOSLG"                          "IDI2"                           
+##  [761] "IDS"                             "IDUA"                           
+##  [763] "IFNG"                            "IFNGR1"                         
+##  [765] "IFNGR2"                          "IFNL1"                          
+##  [767] "IFNLR1"                          "IGF1R"                          
+##  [769] "IGF2R"                           "IGFBP1"                         
+##  [771] "IGFBP2"                          "IGFBP3"                         
+##  [773] "IGFBP4"                          "IGFBP6"                         
+##  [775] "IGFBP7"                          "IGFBPL1"                        
+##  [777] "IGSF3"                           "IGSF8"                          
+##  [779] "IKBKG"                           "IKZF2"                          
+##  [781] "IL10"                            "IL10RA"                         
+##  [783] "IL10RB"                          "IL11"                           
+##  [785] "IL12A_IL12B"                     "IL12B"                          
+##  [787] "IL12RB1"                         "IL13"                           
+##  [789] "IL13RA1"                         "IL15"                           
+##  [791] "IL15RA"                          "IL16"                           
+##  [793] "IL17A"                           "IL17C"                          
+##  [795] "IL17D"                           "IL17F"                          
+##  [797] "IL17RA"                          "IL17RB"                         
+##  [799] "IL18"                            "IL18BP"                         
+##  [801] "IL18R1"                          "IL18RAP"                        
+##  [803] "IL19"                            "IL1A"                           
+##  [805] "IL1B"                            "IL1R1"                          
+##  [807] "IL1R2"                           "IL1RAP"                         
+##  [809] "IL1RL1"                          "IL1RL2"                         
+##  [811] "IL1RN"                           "IL2"                            
+##  [813] "IL20"                            "IL20RA"                         
+##  [815] "IL22RA1"                         "IL24"                           
+##  [817] "IL2RA"                           "IL2RB"                          
+##  [819] "IL32"                            "IL33"                           
+##  [821] "IL34"                            "IL3RA"                          
+##  [823] "IL4"                             "IL4R"                           
+##  [825] "IL5"                             "IL5RA"                          
+##  [827] "IL6R"                            "IL6ST"                          
+##  [829] "IL6_OID20101"                    "IL6_OID20563"                   
+##  [831] "IL6_OID20911"                    "IL6_OID21276"                   
+##  [833] "IL7"                             "IL7R"                           
+##  [835] "ILKAP"                           "IMPA1"                          
+##  [837] "ING1"                            "INHBC"                          
+##  [839] "INPP1"                           "INPPL1"                         
+##  [841] "IPCEF1"                          "IQGAP2"                         
+##  [843] "IRAG2"                           "IRAK1"                          
+##  [845] "IRAK4"                           "ISLR2"                          
+##  [847] "ISM1"                            "ITGA11"                         
+##  [849] "ITGA5"                           "ITGA6"                          
+##  [851] "ITGAM"                           "ITGAV"                          
+##  [853] "ITGB1"                           "ITGB1BP1"                       
+##  [855] "ITGB1BP2"                        "ITGB2"                          
+##  [857] "ITGB5"                           "ITGB6"                          
+##  [859] "ITGB7"                           "ITIH3"                          
+##  [861] "ITM2A"                           "IVD"                            
+##  [863] "JAM2"                            "JCHAIN"                         
+##  [865] "JUN"                             "KAZALD1"                        
+##  [867] "KCNIP4"                          "KDR"                            
+##  [869] "KEL"                             "KIFBP"                          
+##  [871] "KIR2DL3"                         "KIR3DL1"                        
+##  [873] "KIRREL2"                         "KIT"                            
+##  [875] "KITLG"                           "KLB"                            
+##  [877] "KLK1"                            "KLK10"                          
+##  [879] "KLK11"                           "KLK12"                          
+##  [881] "KLK13"                           "KLK14"                          
+##  [883] "KLK4"                            "KLK6"                           
+##  [885] "KLK8"                            "KLRB1"                          
+##  [887] "KLRD1"                           "KRT14"                          
+##  [889] "KRT18"                           "KRT19"                          
+##  [891] "KRT5"                            "KYAT1"                          
+##  [893] "KYNU"                            "L1CAM"                          
+##  [895] "LACTB2"                          "LAG3"                           
+##  [897] "LAIR1"                           "LAIR2"                          
+##  [899] "LAMA4"                           "LAMP2"                          
+##  [901] "LAMP3"                           "LAP3"                           
+##  [903] "LAT"                             "LAT2"                           
+##  [905] "LAYN"                            "LBP"                            
+##  [907] "LBR"                             "LCN2"                           
+##  [909] "LDLR"                            "LEFTY2"                         
+##  [911] "LEP"                             "LEPR"                           
+##  [913] "LGALS1"                          "LGALS3"                         
+##  [915] "LGALS4"                          "LGALS7_LGALS7B"                 
+##  [917] "LGALS8"                          "LGALS9"                         
+##  [919] "LGMN"                            "LHB"                            
+##  [921] "LHPP"                            "LIF"                            
+##  [923] "LIFR"                            "LILRA2"                         
+##  [925] "LILRA5"                          "LILRB1"                         
+##  [927] "LILRB2"                          "LILRB4"                         
+##  [929] "LILRB5"                          "LPCAT2"                         
+##  [931] "LPL"                             "LPO"                            
+##  [933] "LRIG1"                           "LRMP"                           
+##  [935] "LRP1"                            "LRP11"                          
+##  [937] "LRPAP1"                          "LRRC25"                         
+##  [939] "LRRN1"                           "LSM1"                           
+##  [941] "LSP1"                            "LTA"                            
+##  [943] "LTA4H"                           "LTBP2"                          
+##  [945] "LTBP3"                           "LTBR"                           
+##  [947] "LTO1"                            "LXN"                            
+##  [949] "LY6D"                            "LY75"                           
+##  [951] "LY9"                             "LY96"                           
+##  [953] "LYAR"                            "LYN"                            
+##  [955] "LYPD1"                           "LYPD3"                          
+##  [957] "LYPD8"                           "MAD1L1"                         
+##  [959] "MAEA"                            "MAGED1"                         
+##  [961] "MANF"                            "MANSC1"                         
+##  [963] "MAP2K6"                          "MAP3K5"                         
+##  [965] "MAP4K5"                          "MAPK9"                          
+##  [967] "MAPT"                            "MARCO"                          
+##  [969] "MASP1"                           "MATN2"                          
+##  [971] "MATN3"                           "MAVS"                           
+##  [973] "MAX"                             "MB"                             
+##  [975] "MCAM"                            "MCFD2"                          
+##  [977] "MDGA1"                           "MDK"                            
+##  [979] "MED18"                           "MEGF10"                         
+##  [981] "MEGF9"                           "MEP1B"                          
+##  [983] "MEPE"                            "MERTK"                          
+##  [985] "MESD"                            "MET"                            
+##  [987] "METAP1"                          "METAP1D"                        
+##  [989] "METAP2"                          "MFAP3"                          
+##  [991] "MFAP5"                           "MFGE8"                          
+##  [993] "MGLL"                            "MGMT"                           
+##  [995] "MIA"                             "MICB_MICA"                      
+##  [997] "MIF"                             "MILR1"                          
+##  [999] "MITD1"                           "MLN"                            
+## [1001] "MME"                             "MMP1"                           
+## [1003] "MMP10"                           "MMP12"                          
+## [1005] "MMP13"                           "MMP3"                           
+## [1007] "MMP7"                            "MMP8"                           
+## [1009] "MMP9"                            "MNDA"                           
+## [1011] "MOG"                             "MPHOSPH8"                       
+## [1013] "MPI"                             "MPIG6B"                         
+## [1015] "MPO"                             "MRPL46"                         
+## [1017] "MSLN"                            "MSMB"                           
+## [1019] "MSR1"                            "MSRA"                           
+## [1021] "MSTN"                            "MTPN"                           
+## [1023] "MUC13"                           "MUC16"                          
+## [1025] "MVK"                             "MYO9B"                          
+## [1027] "MYOC"                            "MZB1"                           
+## [1029] "MZT1"                            "NAAA"                           
+## [1031] "NADK"                            "NAMPT"                          
+## [1033] "NBL1"                            "NBN"                            
+## [1035] "NCAM1"                           "NCAM2"                          
+## [1037] "NCAN"                            "NCF2"                           
+## [1039] "NCK2"                            "NCLN"                           
+## [1041] "NCR1"                            "NCS1"                           
+## [1043] "NDRG1"                           "NDUFS6"                         
+## [1045] "NECTIN2"                         "NECTIN4"                        
+## [1047] "NEFL"                            "NELL1"                          
+## [1049] "NELL2"                           "NFASC"                          
+## [1051] "NFATC1"                          "NFATC3"                         
+## [1053] "NFKBIE"                          "NGF"                            
+## [1055] "NID1"                            "NID2"                           
+## [1057] "NINJ1"                           "NME3"                           
+## [1059] "NMNAT1"                          "NOMO1"                          
+## [1061] "NOS1"                            "NOS3"                           
+## [1063] "NOTCH1"                          "NOTCH3"                         
+## [1065] "NPDC1"                           "NPM1"                           
+## [1067] "NPPB"                            "NPPC"                           
+## [1069] "NPTN"                            "NPTX1"                          
+## [1071] "NPTXR"                           "NPY"                            
+## [1073] "NRCAM"                           "NRP1"                           
+## [1075] "NRP2"                            "NRTN"                           
+## [1077] "NSFL1C"                          "NT5C3A"                         
+## [1079] "NT5E"                            "NTF3"                           
+## [1081] "NTF4"                            "NTRK2"                          
+## [1083] "NTRK3"                           "NTproBNP"                       
+## [1085] "NUB1"                            "NUCB2"                          
+## [1087] "NUDC"                            "NUDT2"                          
+## [1089] "NUDT5"                           "NXPH1"                          
+## [1091] "OBP2B"                           "ODAM"                           
+## [1093] "OGFR"                            "OGN"                            
+## [1095] "OLR1"                            "OMD"                            
+## [1097] "OMG"                             "OPTC"                           
+## [1099] "OSCAR"                           "OSM"                            
+## [1101] "OSMR"                            "OXT"                            
+## [1103] "P4HB"                            "PADI2"                          
+## [1105] "PADI4"                           "PAEP"                           
+## [1107] "PAG1"                            "PAK4"                           
+## [1109] "PAM"                             "PAMR1"                          
+## [1111] "PAPPA"                           "PARK7"                          
+## [1113] "PARP1"                           "PBLD"                           
+## [1115] "PCDH1"                           "PCDH17"                         
+## [1117] "PCOLCE"                          "PCSK9"                          
+## [1119] "PDCD1"                           "PDCD1LG2"                       
+## [1121] "PDCD5"                           "PDCD6"                          
+## [1123] "PDGFA"                           "PDGFB"                          
+## [1125] "PDGFC"                           "PDGFRA"                         
+## [1127] "PDGFRB"                          "PDLIM7"                         
+## [1129] "PDP1"                            "PEAR1"                          
+## [1131] "PEBP1"                           "PECAM1"                         
+## [1133] "PFDN2"                           "PFKFB2"                         
+## [1135] "PGF"                             "PGLYRP1"                        
+## [1137] "PHOSPHO1"                        "PI3"                            
+## [1139] "PIGR"                            "PIK3AP1"                        
+## [1141] "PIK3IP1"                         "PILRA"                          
+## [1143] "PILRB"                           "PKLR"                           
+## [1145] "PLA2G10"                         "PLA2G15"                        
+## [1147] "PLA2G1B"                         "PLA2G2A"                        
+## [1149] "PLA2G4A"                         "PLA2G7"                         
+## [1151] "PLAT"                            "PLAU"                           
+## [1153] "PLAUR"                           "PLIN1"                          
+## [1155] "PLIN3"                           "PLPBP"                          
+## [1157] "PLTP"                            "PLXDC1"                         
+## [1159] "PLXNA4"                          "PLXNB2"                         
+## [1161] "PLXNB3"                          "PM20D1"                         
+## [1163] "PMVK"                            "PNLIPRP2"                       
+## [1165] "PNPT1"                           "PODXL"                          
+## [1167] "PODXL2"                          "POLR2F"                         
+## [1169] "PON2"                            "PON3"                           
+## [1171] "PPCDC"                           "PPIB"                           
+## [1173] "PPM1A"                           "PPME1"                          
+## [1175] "PPP1R12A"                        "PPP1R2"                         
+## [1177] "PPP1R9B"                         "PPP3R1"                         
+## [1179] "PPY"                             "PQBP1"                          
+## [1181] "PRCP"                            "PRDX1"                          
+## [1183] "PRDX3"                           "PRDX5"                          
+## [1185] "PRDX6"                           "PREB"                           
+## [1187] "PRELP"                           "PRKAB1"                         
+## [1189] "PRKAR1A"                         "PRKCQ"                          
+## [1191] "PRKRA"                           "PRL"                            
+## [1193] "PROC"                            "PROK1"                          
+## [1195] "PRSS2"                           "PRSS27"                         
+## [1197] "PRSS8"                           "PRTFDC1"                        
+## [1199] "PRTG"                            "PRTN3"                          
+## [1201] "PSG1"                            "PSIP1"                          
+## [1203] "PSMA1"                           "PSMD9"                          
+## [1205] "PSME1"                           "PSME2"                          
+## [1207] "PSMG3"                           "PSPN"                           
+## [1209] "PSRC1"                           "PTEN"                           
+## [1211] "PTGDS"                           "PTH1R"                          
+## [1213] "PTK7"                            "PTN"                            
+## [1215] "PTPN1"                           "PTPN6"                          
+## [1217] "PTPRF"                           "PTPRM"                          
+## [1219] "PTPRN2"                          "PTPRS"                          
+## [1221] "PTS"                             "PTX3"                           
+## [1223] "PVALB"                           "PVR"                            
+## [1225] "PXN"                             "QDPR"                           
+## [1227] "QPCT"                            "RAB37"                          
+## [1229] "RAB6A"                           "RAB6B"                          
+## [1231] "RABEPK"                          "RABGAP1L"                       
+## [1233] "RAD23B"                          "RANGAP1"                        
+## [1235] "RARRES1"                         "RARRES2"                        
+## [1237] "RASA1"                           "RASSF2"                         
+## [1239] "RBKS"                            "RBP2"                           
+## [1241] "RBP5"                            "RCOR1"                          
+## [1243] "REG1A"                           "REG1B"                          
+## [1245] "REG3A"                           "REG4"                           
+## [1247] "RELT"                            "REN"                            
+## [1249] "RET"                             "RETN"                           
+## [1251] "RGMA"                            "RGMB"                           
+## [1253] "RGS8"                            "RHOC"                           
+## [1255] "RILP"                            "RNASE3"                         
+## [1257] "RNASET2"                         "RNF41"                          
+## [1259] "ROBO1"                           "ROBO2"                          
+## [1261] "ROR1"                            "RP2"                            
+## [1263] "RRM2"                            "RRM2B"                          
+## [1265] "RSPO1"                           "RSPO3"                          
+## [1267] "RTBDN"                           "RTN4R"                          
+## [1269] "RUVBL1"                          "RWDD1"                          
+## [1271] "S100A11"                         "S100A12"                        
+## [1273] "S100A16"                         "S100A4"                         
+## [1275] "S100P"                           "SAMD9L"                         
+## [1277] "SCAMP3"                          "SCARA5"                         
+## [1279] "SCARB1"                          "SCARB2"                         
+## [1281] "SCARF1"                          "SCARF2"                         
+## [1283] "SCG2"                            "SCG3"                           
+## [1285] "SCGB1A1"                         "SCGB3A2"                        
+## [1287] "SCGN"                            "SCLY"                           
+## [1289] "SCP2"                            "SCRN1"                          
+## [1291] "SDC1"                            "SDC4"                           
+## [1293] "SELE"                            "SELP"                           
+## [1295] "SELPLG"                          "SEMA3F"                         
+## [1297] "SEMA4C"                          "SEMA4D"                         
+## [1299] "SEMA7A"                          "SEPTIN9"                        
+## [1301] "SERPINA11"                       "SERPINA12"                      
+## [1303] "SERPINA9"                        "SERPINB1"                       
+## [1305] "SERPINB5"                        "SERPINB6"                       
+## [1307] "SERPINB8"                        "SERPINB9"                       
+## [1309] "SERPINE1"                        "SESTD1"                         
+## [1311] "SETMAR"                          "SEZ6L"                          
+## [1313] "SEZ6L2"                          "SF3B4"                          
+## [1315] "SFRP1"                           "SFTPA1"                         
+## [1317] "SFTPA2"                          "SFTPD"                          
+## [1319] "SH2B3"                           "SH2D1A"                         
+## [1321] "SHMT1"                           "SIAE"                           
+## [1323] "SIGLEC1"                         "SIGLEC10"                       
+## [1325] "SIGLEC15"                        "SIGLEC5"                        
+## [1327] "SIGLEC6"                         "SIGLEC7"                        
+## [1329] "SIGLEC9"                         "SIRPA"                          
+## [1331] "SIRPB1"                          "SIRT2"                          
+## [1333] "SIRT5"                           "SIT1"                           
+## [1335] "SKAP1"                           "SKAP2"                          
+## [1337] "SLAMF1"                          "SLAMF6"                         
+## [1339] "SLAMF7"                          "SLAMF8"                         
+## [1341] "SLC16A1"                         "SLC27A4"                        
+## [1343] "SLC39A14"                        "SLC39A5"                        
+## [1345] "SLIT2"                           "SLITRK2"                        
+## [1347] "SLITRK6"                         "SMAD1"                          
+## [1349] "SMAD5"                           "SMARCA2"                        
+## [1351] "SMOC1"                           "SMOC2"                          
+## [1353] "SMPD1"                           "SMPDL3A"                        
+## [1355] "SNAP23"                          "SNAP29"                         
+## [1357] "SNCG"                            "SNX9"                           
+## [1359] "SOD1"                            "SOD2"                           
+## [1361] "SORCS2"                          "SORD"                           
+## [1363] "SORT1"                           "SOST"                           
+## [1365] "SPARC"                           "SPARCL1"                        
+## [1367] "SPINK1"                          "SPINK4"                         
+## [1369] "SPINK5"                          "SPINK6"                         
+## [1371] "SPINT1"                          "SPINT2"                         
+## [1373] "SPOCK1"                          "SPON1"                          
+## [1375] "SPON2"                           "SPP1"                           
+## [1377] "SPRY2"                           "SRC"                            
+## [1379] "SRP14"                           "SRPK2"                          
+## [1381] "SSB"                             "SSC4D"                          
+## [1383] "SSC5D"                           "ST3GAL1"                        
+## [1385] "ST6GAL1"                         "STAMBP"                         
+## [1387] "STAT5B"                          "STC1"                           
+## [1389] "STC2"                            "STIP1"                          
+## [1391] "STK11"                           "STK24"                          
+## [1393] "STK4"                            "STX16"                          
+## [1395] "STX4"                            "STX6"                           
+## [1397] "STX8"                            "STXBP3"                         
+## [1399] "SUGT1"                           "SULT1A1"                        
+## [1401] "SULT2A1"                         "SUMF2"                          
+## [1403] "SUSD1"                           "SUSD2"                          
+## [1405] "TACC3"                           "TACSTD2"                        
+## [1407] "TAFA5"                           "TANK"                           
+## [1409] "TARBP2"                          "TBC1D17"                        
+## [1411] "TBC1D23"                         "TBC1D5"                         
+## [1413] "TBCB"                            "TBCC"                           
+## [1415] "TBL1X"                           "TCL1A"                          
+## [1417] "TCL1B"                           "TCN2"                           
+## [1419] "TDGF1"                           "TDRKH"                          
+## [1421] "TEK"                             "TFF1"                           
+## [1423] "TFF2"                            "TFF3"                           
+## [1425] "TFPI"                            "TFPI2"                          
+## [1427] "TFRC"                            "TGFA"                           
+## [1429] "TGFB1"                           "TGFBI"                          
+## [1431] "TGFBR2"                          "TGFBR3"                         
+## [1433] "TGM2"                            "THBD"                           
+## [1435] "THBS2"                           "THBS4"                          
+## [1437] "THOP1"                           "THPO"                           
+## [1439] "THY1"                            "TIA1"                           
+## [1441] "TIE1"                            "TIGAR"                          
+## [1443] "TIMD4"                           "TIMP1"                          
+## [1445] "TIMP3"                           "TIMP4"                          
+## [1447] "TINAGL1"                         "TJAP1"                          
+## [1449] "TLR3"                            "TMPRSS15"                       
+## [1451] "TMPRSS5"                         "TMSB10"                         
+## [1453] "TNC"                             "TNFAIP8"                        
+## [1455] "TNFRSF10A"                       "TNFRSF10B"                      
+## [1457] "TNFRSF10C"                       "TNFRSF11A"                      
+## [1459] "TNFRSF11B"                       "TNFRSF12A"                      
+## [1461] "TNFRSF13B"                       "TNFRSF13C"                      
+## [1463] "TNFRSF14"                        "TNFRSF19"                       
+## [1465] "TNFRSF1A"                        "TNFRSF1B"                       
+## [1467] "TNFRSF21"                        "TNFRSF4"                        
+## [1469] "TNFRSF6B"                        "TNFRSF8"                        
+## [1471] "TNFRSF9"                         "TNFSF10"                        
+## [1473] "TNFSF11"                         "TNFSF12"                        
+## [1475] "TNFSF13"                         "TNFSF13B"                       
+## [1477] "TNFSF14"                         "TNF_OID20074"                   
+## [1479] "TNF_OID20473"                    "TNF_OID20848"                   
+## [1481] "TNF_OID21237"                    "TNNI3"                          
+## [1483] "TNR"                             "TNXB"                           
+## [1485] "TP53"                            "TP53INP1"                       
+## [1487] "TPMT"                            "TPP1"                           
+## [1489] "TPPP3"                           "TPSAB1"                         
+## [1491] "TPT1"                            "TRAF2"                          
+## [1493] "TREM2"                           "TREML2"                         
+## [1495] "TRIAP1"                          "TRIM21"                         
+## [1497] "TRIM5"                           "TSHB"                           
+## [1499] "TSLP"                            "TSPAN1"                         
+## [1501] "TST"                             "TXLNA"                          
+## [1503] "TXNDC15"                         "TXNDC5"                         
+## [1505] "TXNRD1"                          "TYMP"                           
+## [1507] "TYRO3"                           "UBAC1"                          
+## [1509] "ULBP2"                           "UMOD"                           
+## [1511] "USO1"                            "USP8"                           
+## [1513] "UXS1"                            "VAMP5"                          
+## [1515] "VASH1"                           "VASN"                           
+## [1517] "VAT1"                            "VCAM1"                          
+## [1519] "VCAN"                            "VEGFA"                          
+## [1521] "VEGFC"                           "VEGFD"                          
+## [1523] "VIM"                             "VMO1"                           
+## [1525] "VNN2"                            "VPS37A"                         
+## [1527] "VPS53"                           "VSIG4"                          
+## [1529] "VSIR"                            "VSTM1"                          
+## [1531] "VSTM2L"                          "VTA1"                           
+## [1533] "VTCN1"                           "VWA1"                           
+## [1535] "VWC2"                            "VWF"                            
+## [1537] "WARS"                            "WAS"                            
+## [1539] "WASF1"                           "WASF3"                          
+## [1541] "WFDC12"                          "WFDC2"                          
+## [1543] "WFIKKN1"                         "WFIKKN2"                        
+## [1545] "WIF1"                            "WISP1"                          
+## [1547] "WISP2"                           "WNT9A"                          
+## [1549] "WWP2"                            "XCL1"                           
+## [1551] "XG"                              "XPNPEP2"                        
+## [1553] "XRCC4"                           "YES1"                           
+## [1555] "YTHDF3"                          "ZBTB16"                         
+## [1557] "ZBTB17"
+\end{verbatim}
+
+\#Count how many different subjects (unique subject.subjectGuid values)
+are present in analysis\_data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(}\FunctionTok{unique}\NormalTok{(analysis\_data}\SpecialCharTok{$}\NormalTok{subject.subjectGuid))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 92
+\end{verbatim}
+
+step 5: filter for duplicates \#check if no duplicate protein
+measurements have occurred under different IDs:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pairs\_df }\OtherTok{\textless{}{-}}\NormalTok{ protein\_annotation }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(same\_assay\_as)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(n\_missing) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{distinct}\NormalTok{(olink\_id, }\AttributeTok{.keep\_all =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{nrow}\NormalTok{(pairs\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+We have found 9 duplicates. these have to be deleted.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{proteins\_npx\_clean }\OtherTok{\textless{}{-}}\NormalTok{ proteins\_npx\_raw}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_len}\NormalTok{(}\FunctionTok{nrow}\NormalTok{(pairs\_df))) \{}
+\NormalTok{  new\_col }\OtherTok{\textless{}{-}}\NormalTok{ pairs\_df}\SpecialCharTok{$}\NormalTok{protein[i]}
+\NormalTok{  old\_col }\OtherTok{\textless{}{-}}\NormalTok{ pairs\_df}\SpecialCharTok{$}\NormalTok{same\_assay\_as[i]}
+  
+\NormalTok{  proteins\_npx\_clean[[new\_col]] }\OtherTok{\textless{}{-}} \FunctionTok{coalesce}\NormalTok{(proteins\_npx\_clean[[new\_col]], proteins\_npx\_clean[[old\_col]])}
+\NormalTok{  proteins\_npx\_clean[[old\_col]] }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3.Also update protein\_annotation (1472 unique proteins)}
+\NormalTok{protein\_annotation\_clean }\OtherTok{\textless{}{-}}\NormalTok{ protein\_annotation }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{protein }\SpecialCharTok{\%in\%}\NormalTok{ pairs\_df}\SpecialCharTok{$}\NormalTok{same\_assay\_as) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{n\_missing =} \FunctionTok{if\_else}\NormalTok{(protein }\SpecialCharTok{\%in\%}\NormalTok{ pairs\_df}\SpecialCharTok{$}\NormalTok{protein, }\DecValTok{0}\DataTypeTok{L}\NormalTok{, n\_missing),}
+    \AttributeTok{pct\_missing =} \FunctionTok{if\_else}\NormalTok{(protein }\SpecialCharTok{\%in\%}\NormalTok{ pairs\_df}\SpecialCharTok{$}\NormalTok{protein, }\FloatTok{0.0}\NormalTok{, pct\_missing)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Check if the 9 joined proteins are no longer missing}
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(proteins\_npx\_clean[pairs\_df}\SpecialCharTok{$}\NormalTok{protein]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ADGRE5   CCN4   CCN5  CEP20  CEP43  DARS1  GOLM2  HARS1  IRAG2 
+##      0      0      0      0      0      0      0      0      0
+\end{verbatim}
+
+step 6 LOD \#proteins under LOD bepalen:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Summary statistics}
+\FunctionTok{summary}\NormalTok{(protein\_annotation\_clean}\SpecialCharTok{$}\NormalTok{pct\_below\_lod)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   0.000  10.522   2.575  99.400
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Histogram}
+\FunctionTok{hist}\NormalTok{(}
+\NormalTok{  protein\_annotation\_clean}\SpecialCharTok{$}\NormalTok{pct\_below\_lod,}
+  \AttributeTok{breaks =} \DecValTok{50}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Distribution of \% below LOD"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"\% below LOD"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-23-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# How much protein do \textgreater{} 50\% have under LOD?}
+\FunctionTok{table}\NormalTok{(protein\_annotation\_clean}\SpecialCharTok{$}\NormalTok{pct\_below\_lod }\SpecialCharTok{\textgreater{}} \DecValTok{50}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## FALSE  TRUE 
+##  1322   150
+\end{verbatim}
+
+\#removing the proteins under the limit
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Proteins to be removed (\textgreater{}50\% below LOD)}
+\NormalTok{proteins\_remove }\OtherTok{\textless{}{-}}\NormalTok{ protein\_annotation\_clean }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(pct\_below\_lod }\SpecialCharTok{\textgreater{}} \DecValTok{50}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{pull}\NormalTok{(protein)}
+
+\CommentTok{\# Remove these columns from the NPX data}
+\NormalTok{proteins\_npx\_filtered }\OtherTok{\textless{}{-}}\NormalTok{ proteins\_npx\_raw }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(}\SpecialCharTok{{-}}\FunctionTok{any\_of}\NormalTok{(proteins\_remove))}
+
+\CommentTok{\#how many proteins are removed }
+\FunctionTok{length}\NormalTok{(proteins\_remove)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 150
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Globale missingness na samenvoegen}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(proteins\_npx\_clean))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2683
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(proteins\_npx\_clean)) }\SpecialCharTok{*} \DecValTok{100}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2100868
+\end{verbatim}
+
+\#checking how reliably CXCL13 was measured before using it in an
+analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{protein\_annotation\_clean }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(protein }\SpecialCharTok{==} \StringTok{"CXCL13"} \SpecialCharTok{|}\NormalTok{ assay }\SpecialCharTok{==} \StringTok{"CXCL13"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(protein, panel, npx\_median, lod\_median, pct\_below\_lod, pct\_missing)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 6
+##   protein panel     npx_median lod_median pct_below_lod pct_missing
+##   <chr>   <chr>          <dbl>      <dbl>         <dbl>       <dbl>
+## 1 CXCL13  Neurology      0.268      -2.64             0           0
+\end{verbatim}
+
+conclusion: CXCL13 was measured reliably in the Neurology panel. Its
+median NPX (0.268) lies well above the median limit of detection
+(-2.644), no samples fall below the LOD (0\%), and no values are missing
+(0\%). CXCL13 can therefore be included in the analysis without
+exclusion or special handling for data quality. This only confirms
+measurement quality and does not indicate whether CXCL13 differs between
+groups.
+
+part 2
+
+\textbf{research question:} Does the change in plasma CXCL13
+concentration between day 0 and day 7 after seasonal influenza
+vaccination differ between young and older adults, independently of
+biological sex, CMV status and batch?
+
+\textbf{Hypothese:} * \textbf{H0:} The change in plasma CXCL13 levels
+from day 0 to day 7 does not differ between young and older adults after
+adjustment (\(\beta_{\text{visit} \times \text{ageGroup}} = 0\)). *
+\textbf{H1:} The change in plasma CXCL13 levels from day 0 to day 7
+differs significantly between young and older adults after adjustment
+(\(\beta_{\text{visit} \times \text{ageGroup}} \neq 0\)).
+
+\textbf{Variables:} * \textbf{Outcome (afhankelijke variabele):}
+\texttt{CXCL13} (continue NPX-waarde op \(\log_2\)-schaal). *
+\textbf{Hoofdpredictoren (interactie):} \texttt{sample.visit}
+(discreet/binair na filtering: Day 0 vs.~Day 7) en
+\texttt{subject.ageGroup} (binair categorisch: Young Adult vs.~Older
+Adult). * \textbf{Covariaten (confounders) \& random effect:}
+\texttt{subject.biologicalSex} (Female vs.~Male), \texttt{cmv\_status}
+(Negative vs.~Positive), \texttt{olink\_batch\_id} (categorisch,
+meerdere levels) en een random intercept voor
+\texttt{subject.subjectGuid} (om te corrigeren voor herhaalde metingen
+binnen dezelfde donor).
+
+step 1: filtering we will analyse the cohort flu Year 1 day O in
+comparison to Flu Year Day 7 select this data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{analysis\_data }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(}
+\NormalTok{  data,}
+\NormalTok{  sample.visitName }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}
+    \StringTok{"Flu Year 1 Day 0"}\NormalTok{,}
+    \StringTok{"Flu Year 1 Day 7"}
+\NormalTok{  )}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(lme4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: Matrix
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'Matrix'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:tidyr':
+## 
+##     expand, pack, unpack
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(lmerTest)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'lmerTest' was built under R version 4.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'lmerTest'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:lme4':
+## 
+##     lmer
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:stats':
+## 
+##     step
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# convert measurement moments to categorical variable. This ensures that R treats the visit as a category, and not as a numerical value. }
+\CommentTok{\#reason =\textgreater{} Visits are labels for time points, not quantities. If R treats them as numbers (e.g. 1, 2, 3), a model assumes a straight{-}line effect and that the gaps between visits are equal. As a category, each visit gets its own estimate, so differences between specific visits can be tested without those assumptions.}
+\NormalTok{analysis\_data }\OtherTok{\textless{}{-}}\NormalTok{ analysis\_data }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{visit =} \FunctionTok{factor}\NormalTok{(sample.visitName,}
+                   \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Flu Year 1 Day 0"}\NormalTok{, }\StringTok{"Flu Year 1 Day 7"}\NormalTok{),}
+                   \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Day 0"}\NormalTok{, }\StringTok{"Day 7"}\NormalTok{)),}
+    \CommentTok{\#The code determines the order of the categories.}
+    \AttributeTok{age\_group =} \FunctionTok{factor}\NormalTok{(subject.ageGroup, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Young Adult"}\NormalTok{, }\StringTok{"Older Adult"}\NormalTok{)),}
+    \CommentTok{\#Convert other variables into factors because they must be treated as groups or categories in the statistical       model, and not as numerical values.}
+    \AttributeTok{sex =} \FunctionTok{factor}\NormalTok{(subject.biologicalSex),}
+    \AttributeTok{cmv\_status =} \FunctionTok{factor}\NormalTok{(cmv\_status),}
+    \AttributeTok{batch =} \FunctionTok{factor}\NormalTok{(olink\_batch\_id),}
+    \AttributeTok{donor =} \FunctionTok{factor}\NormalTok{(subject.subjectGuid)}
+    \CommentTok{\#filter = the code removes all rows in which at least one of these variables is missing:}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(CXCL13),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(visit),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(age\_group),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(sex),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(cmv\_status),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(batch),}
+    \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(donor)}
+\NormalTok{  )}
+
+\CommentTok{\# Controleer de aantallen per bezoek en leeftijdsgroep= je controleert hoeveel observaties er per visit en leeftijdsgroep overblijven.}
+\FunctionTok{table}\NormalTok{(}\AttributeTok{Visit =}\NormalTok{ analysis\_data}\SpecialCharTok{$}\NormalTok{visit, }\AttributeTok{AgeGroup =}\NormalTok{ analysis\_data}\SpecialCharTok{$}\NormalTok{age\_group)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        AgeGroup
+## Visit   Young Adult Older Adult
+##   Day 0          47          45
+##   Day 7          47          45
+\end{verbatim}
+
+\section{Fit the linear mixed-effects model to
+analysis\_data}\label{fit-the-linear-mixed-effects-model-to-analysis_data}
+
+Because your data have repeated measures: the same subject is measured
+at several visits (you counted unique subject.subjectGuid earlier).
+Measurements from the same person are not independent, so an ordinary
+linear model or t-test would treat them as independent and make the SE
+too small (pseudo-replication).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_protein\_cxcl13 }\OtherTok{\textless{}{-}} \FunctionTok{lmer}\NormalTok{(}
+\NormalTok{  CXCL13 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ visit }\SpecialCharTok{*}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ cmv\_status }\SpecialCharTok{+}\NormalTok{ batch }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{|}\NormalTok{ donor),}
+  \AttributeTok{data =}\NormalTok{ analysis\_data}
+\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model\_protein\_cxcl13)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: CXCL13 ~ visit * age_group + sex + cmv_status + batch + (1 |  
+##     donor)
+##    Data: analysis_data
+## 
+## REML criterion at convergence: 366.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.2753 -0.4245 -0.0316  0.3388  3.5615 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  donor    (Intercept) 0.3079   0.5548  
+##  Residual             0.1998   0.4470  
+## Number of obs: 184, groups:  donor, 92
+## 
+## Fixed effects:
+##                                   Estimate Std. Error         df t value
+## (Intercept)                       0.772196   0.142460 111.652663   5.420
+## visitDay 7                       -0.006297   0.092974  91.569112  -0.068
+## age_groupOlder Adult             -0.220208   0.157578 125.356152  -1.397
+## sexMale                          -0.347342   0.135645  86.014315  -2.561
+## cmv_statusPositive                0.127842   0.136731  85.483904   0.935
+## batch20211036                    -0.196179   0.165732 119.822614  -1.184
+## batch20211037                    -0.226717   0.151485 149.806027  -1.497
+## batch20212223                    -0.900559   0.341066  88.171694  -2.640
+## visitDay 7:age_groupOlder Adult  -0.095275   0.131972  89.711089  -0.722
+##                                 Pr(>|t|)    
+## (Intercept)                     3.47e-07 ***
+## visitDay 7                       0.94615    
+## age_groupOlder Adult             0.16475    
+## sexMale                          0.01219 *  
+## cmv_statusPositive               0.35243    
+## batch20211036                    0.23887    
+## batch20211037                    0.13659    
+## batch20212223                    0.00979 ** 
+## visitDay 7:age_groupOlder Adult  0.47221    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) vstDy7 ag_gOA sexMal cmv_sP b20211036 b20211037 b20212
+## visitDay 7  -0.278                                                       
+## ag_grpOldrA -0.323  0.327                                                
+## sexMale     -0.410  0.015  0.028                                         
+## cmv_sttsPst -0.373  0.005 -0.121  0.070                                  
+## btc20211036 -0.317 -0.091 -0.277 -0.093 -0.010                           
+## btc20211037 -0.301 -0.123 -0.254 -0.108 -0.042  0.509                    
+## btc20212223 -0.173 -0.031 -0.065  0.043 -0.124  0.217     0.221          
+## vstD7:g_gOA  0.211 -0.698 -0.431 -0.005 -0.001  0.038     0.036     0.011
+\end{verbatim}
+
+Conclusion: The linear mixed-effects model, including donor as a random
+intercept, showed substantial inter-individual variability, with an
+intraclass correlation coefficient (ICC) of 0.606. No significant main
+effect of visit (Day 7 vs.~Day 0; β = -0.006, p = 0.946) or age group
+(Older Adults vs.~Younger Adults; β = -0.220, p = 0.165) was observed.
+Furthermore, no significant interaction between visit and age group was
+detected (β = -0.095, p = 0.472), indicating no evidence of differential
+changes over time between the two age groups. Significant effects were
+observed for sex (β = -0.347, p = 0.012) and batch 20212223 (β = -0.901,
+p = 0.010).
+
+step 2 further checks: 1) Adjusted CXCL13 levels across visits by age
+group reason =\textgreater{} Model-estimated mean CXCL13 (NPX) at each
+visit for each age group, adjusted for the other model variables and the
+repeated measures per subject. Error bars show 95\% confidence
+intervals.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(emmeans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'emmeans' was built under R version 4.6.2
+\end{verbatim}
+
+\begin{verbatim}
+## Welcome to emmeans.
+## Caution: You lose important information if you filter this package's results.
+## See '? untidy'
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{emm }\OtherTok{\textless{}{-}} \FunctionTok{emmeans}\NormalTok{(model\_protein\_cxcl13, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ visit }\SpecialCharTok{*}\NormalTok{ age\_group)}
+\NormalTok{emm\_df }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(emm)}
+\FunctionTok{ggplot}\NormalTok{(emm\_df,}
+       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ visit,}
+           \AttributeTok{y =}\NormalTok{ emmean,}
+           \AttributeTok{color =}\NormalTok{ age\_group,}
+           \AttributeTok{group =}\NormalTok{ age\_group)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{linewidth =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ lower.CL,}
+                    \AttributeTok{ymax =}\NormalTok{ upper.CL),}
+                \AttributeTok{width =} \FloatTok{0.1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{x =} \StringTok{"Visit"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Adjusted CXCL13 (NPX)"}\NormalTok{,}
+    \AttributeTok{color =} \StringTok{"Age group"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_classic}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{14}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-30-1.pdf}}
+conclusion: We see that young adults have higher values on both
+measurement days; there is no real difference between the two days.
+Older adults have clearly lower values but do show a decrease on day 0
+compared to day 7. \#estimate marginal means (EMMs) = These are the
+average CXCL13 values per group, adjusted for sex, cmv\_status, and
+batch. = The adjusted averages show what each group's mean would be if
+the groups were comparable on sex, CMV status and batch.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{emm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  visit age_group   emmean    SE  df lower.CL upper.CL
+##  Day 0 Young Adult 0.3316 0.129 113   0.0768    0.586
+##  Day 7 Young Adult 0.3253 0.126 112   0.0747    0.576
+##  Day 0 Older Adult 0.1114 0.128 112  -0.1427    0.365
+##  Day 7 Older Adult 0.0098 0.129 113  -0.2463    0.266
+## 
+## Results are averaged over the levels of: sex, cmv_status, batch 
+## Degrees-of-freedom method: kenward-roger 
+## Confidence level used: 0.95
+\end{verbatim}
+
+conclusion: Adjusted for sex, CMV status and batch, CXCL13 levels were
+stable between Day 0 and Day 7 in young adults (0.33 vs 0.33 NPX) and
+showed only a small decrease in older adults (0.11 vs 0.01 NPX). Older
+adults tended to have lower CXCL13 than young adults at both visits, but
+the 95\% confidence intervals overlapped substantially, so these data do
+not show a clear difference between age groups or visits. Formal
+contrasts or an interaction test are needed to confirm this.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#compares all the estimated means with each other, two at a time (pairwise contrasts).}
+\FunctionTok{pairs}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(model\_protein\_cxcl13,}
+\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{|}\NormalTok{ visit))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## visit = Day 0:
+##  contrast                  estimate    SE  df t.ratio p.value
+##  Young Adult - Older Adult    0.220 0.158 125   1.396  0.1651
+## 
+## visit = Day 7:
+##  contrast                  estimate    SE  df t.ratio p.value
+##  Young Adult - Older Adult    0.315 0.156 125   2.022  0.0453
+## 
+## Results are averaged over the levels of: sex, cmv_status, batch 
+## Degrees-of-freedom method: kenward-roger
+\end{verbatim}
+
+conclusion After adjusting for sex, CMV status and batch, young adults
+had higher CXCL13 than older adults at Day 7 (difference 0.32 NPX, p =
+0.045), but not at Day 0 (difference 0.22 NPX, p = 0.165). The Day 7
+difference is borderline and does not remain significant after
+correcting for the two comparisons, so the evidence for an age
+difference in CXCL13 is weak and should be confirmed in further data.
+\#Question: Does CXCL13 change over time, and does this happen in both
+groups?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pairs}\NormalTok{(}\FunctionTok{emmeans}\NormalTok{(model\_protein\_cxcl13,}
+              \SpecialCharTok{\textasciitilde{}}\NormalTok{ visit }\SpecialCharTok{|}\NormalTok{ age\_group))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## age_group = Young Adult:
+##  contrast      estimate     SE   df t.ratio p.value
+##  Day 0 - Day 7   0.0063 0.0930 91.3   0.068  0.9462
+## 
+## age_group = Older Adult:
+##  contrast      estimate     SE   df t.ratio p.value
+##  Day 0 - Day 7   0.1016 0.0945 89.8   1.075  0.2853
+## 
+## Results are averaged over the levels of: sex, cmv_status, batch 
+## Degrees-of-freedom method: kenward-roger
+\end{verbatim}
+
+CXCL13 levels did not change significantly between Day 0 and Day 7 in
+either young or older adults. Furthermore, no significant visit-by-age
+group interaction was observed, indicating that the temporal evolution
+of CXCL13 did not differ significantly between age groups. A post-hoc
+comparison showed higher CXCL13 levels in young adults compared with
+older adults at Day 7 (p = 0.045), but this isolated finding should be
+interpreted with caution given the absence of a significant overall
+age-group effect or interaction.
+
+Checking model assumptions Linearity and homoscedasticity (Residues
+versus Fitted ) = Linearity: Is the relationship between the predicted
+values \hspace{0pt}\hspace{0pt}and the outcome variable sufficiently
+linear? = Homoscedasticity: Does the spread of the residuals remain
+approximately the same over the entire range of the predicted values?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{fitted}\NormalTok{(model\_protein\_cxcl13), }\FunctionTok{resid}\NormalTok{(model\_protein\_cxcl13),}
+     \AttributeTok{xlab =} \StringTok{"Fitted values"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Residuals"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Residuals vs Fitted"}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h =} \DecValTok{0}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{, }\AttributeTok{col =} \StringTok{"pink"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-34-1.pdf}}
+conclusion:Conclusion: The graph of residuals versus predicted values
+\hspace{0pt}\hspace{0pt}shows that the residuals are largely centered
+around zero without pronounced nonlinearity, accompanied by slight
+heteroscedasticity and a few increased positive residuals at higher
+predicted values; given the sample size (\(n = 184\)), these small
+deviations do not substantially compromise the inference of the model.
+
+\section{2. Normality of the residues:}\label{normality-of-the-residues}
+
+The normality of the residuals was assessed using a Q-Q plot. The
+residuals approximately followed the theoretical normal distribution,
+suggesting that the assumption of normally distributed residuals was
+reasonably met.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qqnorm}\NormalTok{(}\FunctionTok{resid}\NormalTok{(model\_protein\_cxcl13), }\AttributeTok{main =} \StringTok{"Q{-}Q Residuals"}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(}\FunctionTok{resid}\NormalTok{(model\_protein\_cxcl13), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-35-1.pdf}}
+The residues largely follow the normal processing of the reference, with
+only a small part in the added and other steps; this does not constitute
+a substantial objection to the validity of the model.
+
+\section{3. Normality of random intercepts
+(donor)}\label{normality-of-random-intercepts-donor}
+
+You check whether the random intercepts of the 92 donors are
+approximately normally distributed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qqnorm}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{ranef}\NormalTok{(model\_protein\_cxcl13)}\SpecialCharTok{$}\NormalTok{donor), }\AttributeTok{main =} \StringTok{"Q{-}Q Random Intercepts"}\NormalTok{)}
+\FunctionTok{qqline}\NormalTok{(}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{ranef}\NormalTok{(model\_protein\_cxcl13)}\SpecialCharTok{$}\NormalTok{donor), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-36-1.pdf}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+conclusion: The normality of the random effects was assessed using a Q-Q
+plot of the donor-specific random intercepts. The random intercepts
+approximately followed a normal distribution, suggesting that the
+normality assumption for the random effects was reasonably met.
+
+visualizeren: paired-plot
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(dplyr)}
+
+\CommentTok{\# Haal de data uit het mixed model}
+\NormalTok{data\_cxcl13 }\OtherTok{\textless{}{-}} \FunctionTok{model.frame}\NormalTok{(model\_protein\_cxcl13)}
+
+\CommentTok{\# Maak de paired plot}
+\FunctionTok{ggplot}\NormalTok{(data\_cxcl13,}
+       \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ visit,}
+           \AttributeTok{y =}\NormalTok{ CXCL13,}
+           \AttributeTok{group =}\NormalTok{ donor,}
+           \AttributeTok{color =}\NormalTok{ age\_group)) }\SpecialCharTok{+}
+
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{alpha =} \FloatTok{0.35}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{size =} \DecValTok{2}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.75}\NormalTok{) }\SpecialCharTok{+}
+
+  \FunctionTok{stat\_summary}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ age\_group),}
+    \AttributeTok{fun =}\NormalTok{ mean,}
+    \AttributeTok{geom =} \StringTok{"line"}\NormalTok{,}
+    \AttributeTok{linewidth =} \FloatTok{1.3}
+\NormalTok{  ) }\SpecialCharTok{+}
+
+  \FunctionTok{stat\_summary}\NormalTok{(}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{group =}\NormalTok{ age\_group),}
+    \AttributeTok{fun =}\NormalTok{ mean,}
+    \AttributeTok{geom =} \StringTok{"point"}\NormalTok{,}
+    \AttributeTok{size =} \DecValTok{3}
+\NormalTok{  ) }\SpecialCharTok{+}
+
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"CXCL13 concentrations before and after influenza vaccination"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Visit"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"CXCL13"}\NormalTok{,}
+    \AttributeTok{color =} \StringTok{"Age group"}
+\NormalTok{  ) }\SpecialCharTok{+}
+
+  \FunctionTok{theme\_classic}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{part-2-DATA_ANALYSE-part-2_files/figure-latex/unnamed-chunk-37-1.pdf}}
+conclusie: De individuele profielen in grote groepen hebben latentie in
+de CXCL13-waarden van dag 0 tot en met dag 7, zowel voor jongvolwassenen
+als ouderen grotendeels stabiel blijven met voldoende parallelle
+trajecten, terwijl hij een aanzienlijk verschillend bestaan
+\hspace{0pt}\hspace{0pt}tussen individuele donoren heeft.''
+
+rapporting:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(model\_protein\_cxcl13)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+## lmerModLmerTest]
+## Formula: CXCL13 ~ visit * age_group + sex + cmv_status + batch + (1 |  
+##     donor)
+##    Data: analysis_data
+## 
+## REML criterion at convergence: 366.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.2753 -0.4245 -0.0316  0.3388  3.5615 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  donor    (Intercept) 0.3079   0.5548  
+##  Residual             0.1998   0.4470  
+## Number of obs: 184, groups:  donor, 92
+## 
+## Fixed effects:
+##                                   Estimate Std. Error         df t value
+## (Intercept)                       0.772196   0.142460 111.652663   5.420
+## visitDay 7                       -0.006297   0.092974  91.569112  -0.068
+## age_groupOlder Adult             -0.220208   0.157578 125.356152  -1.397
+## sexMale                          -0.347342   0.135645  86.014315  -2.561
+## cmv_statusPositive                0.127842   0.136731  85.483904   0.935
+## batch20211036                    -0.196179   0.165732 119.822614  -1.184
+## batch20211037                    -0.226717   0.151485 149.806027  -1.497
+## batch20212223                    -0.900559   0.341066  88.171694  -2.640
+## visitDay 7:age_groupOlder Adult  -0.095275   0.131972  89.711089  -0.722
+##                                 Pr(>|t|)    
+## (Intercept)                     3.47e-07 ***
+## visitDay 7                       0.94615    
+## age_groupOlder Adult             0.16475    
+## sexMale                          0.01219 *  
+## cmv_statusPositive               0.35243    
+## batch20211036                    0.23887    
+## batch20211037                    0.13659    
+## batch20212223                    0.00979 ** 
+## visitDay 7:age_groupOlder Adult  0.47221    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) vstDy7 ag_gOA sexMal cmv_sP b20211036 b20211037 b20212
+## visitDay 7  -0.278                                                       
+## ag_grpOldrA -0.323  0.327                                                
+## sexMale     -0.410  0.015  0.028                                         
+## cmv_sttsPst -0.373  0.005 -0.121  0.070                                  
+## btc20211036 -0.317 -0.091 -0.277 -0.093 -0.010                           
+## btc20211037 -0.301 -0.123 -0.254 -0.108 -0.042  0.509                    
+## btc20212223 -0.173 -0.031 -0.065  0.043 -0.124  0.217     0.221          
+## vstD7:g_gOA  0.211 -0.698 -0.431 -0.005 -0.001  0.038     0.036     0.011
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(model\_protein\_cxcl13)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Computing profile confidence intervals ...
+\end{verbatim}
+
+\begin{verbatim}
+##                                      2.5 %      97.5 %
+## .sig01                           0.4290589  0.64694599
+## .sigma                           0.3841332  0.51353099
+## (Intercept)                      0.4999009  1.04419092
+## visitDay 7                      -0.1882164  0.17500341
+## age_groupOlder Adult            -0.5215804  0.08081033
+## sexMale                         -0.6062849 -0.08844105
+## cmv_statusPositive              -0.1331620  0.38882024
+## batch20211036                   -0.5129477  0.12040984
+## batch20211037                   -0.5158492  0.06583637
+## batch20212223                   -1.5515318 -0.24936103
+## visitDay 7:age_groupOlder Adult -0.3530796  0.16270710
+\end{verbatim}
+
+No significant visit-by-age group interaction was observed for CXCL13 (β
+= -0.095, 95\% CI {[}-0.353, 0.163{]}, p = 0.472), indicating that the
+change in CXCL13 concentrations between Day 0 and Day 7 did not differ
+significantly between young and older adults.
+
+\end{document}
